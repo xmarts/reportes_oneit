@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+     <template id="report_account_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+      <t t-foreach="docs" t-as="o">
+
+          <div class="page">
+            <t t-if="not o and doc">
+              <t t-set="o" t-value="doc"/>
+            </t>
+            <t t-if="o and 'company_id' in o">
+              <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+              <t t-set="company" t-value="res_company"></t>
+            </t>
+             <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                <!--New global variables-->
+                <t t-set="xml" t-value="o.l10n_mx_edi_get_xml_etree()"/>
+                <t t-set="tfd" t-value="o.l10n_mx_edi_get_tfd_etree(xml)"/>
+                <t t-set="tfd_original_string" t-value="o._get_l10n_mx_edi_cadena()"/>
+            </t>
+           <!--  <table border="1" width="100%"><colgroup span="16" width="48"></colgroup>
+            <tbody>
+                <tr>
+                    <td style="background:#6BBDF9;"  aling="center">
+                        <span>Factura</span>
+                    </td>
+                    <td style="background:#6BBDF9;" aling="center">
+                        <span t-field="o.number"/>
+                    </td>
+                </tr>
+              <tr>
+                <td rowspan="7" aling="center" style="positoin:relative;">
+                  <span>
+                    <img src="/xmarts_zonas/static/src/img/Interkey.png" style="max-height: 120px; width:120px;"/>
+                  </span>
+                </td> 
+                
+                <td style="line-height:1;" colspan="9" align="left" valign="middle" width="45%">
+                  <span style="color: #000000; font-family: Arial; font-size: 18px;"><strong><span t-esc="company.name"/></strong></span>
+                </td>
+               
+             
+              </tr>
+
+              <tr>
+                <td style="line-height:1;" colspan="9" align="left" valign="middle">
+                  <span style="color: #000000; font-family: Arial;">
+                    
+                    <span t-field="o.company_id.partner_id.street_name" />
+                    <span t-field="o.company_id.partner_id.street_number" /> /
+                    <span t-field="o.company_id.partner_id.street_number2" />,
+                    <span t-field="o.company_id.partner_id.street2" />
+                    <span t-field="o.company_id.partner_id.l10n_mx_edi_colony" />,
+                    CP:
+                    <span t-field="o.company_id.partner_id.zip" />
+                    </span>
+                </td>
+
+            </tr>
+
+            <tr>
+              <td style="line-height:1;" colspan="9" align="left" valign="middle"><span style="color: #000000; font-family: Arial;">RFC: </span><span t-field="o.company_id.vat"/></td>
+              
+            </tr>
+
+            <tr>
+              <td style="line-height:1;" colspan="9" align="left" valign="middle"><span style="color: #000000; font-family: Arial;">Tel. (33) 3616-5577 con 20 líneas.</span></td>
+             
+            </tr>
+            <tr>
+              <td colspan="10" align="left" valign="middle">
+                <span>cobranza@ikp.mx  -  ventas@ikp.mx</span>
+              </td>
+              
+            </tr>
+          </tbody>
+        </table> -->
+
+        <div class="text-right" >
+        </div>
+
+        <table>
+            <tr>
+                <td style="background:#6BBDF9;"  aling="center">
+                        <span>Factura</span>
+                </td>
+                <td style="background:#6BBDF9;" aling="center">
+                        <span t-field="o.number"/>
+                </td>
+            </tr>
+            <tr>
+                <td aling="center" style="positoin:relative;">
+                    <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" />
+                    
+                </td>
+                <td>
+                    <span t-esc="o.company_id.name"/><br/>
+                    <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
+                    <span>No de serie del Certificado del CSD:</span><br/>
+                    <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/>
+                    <span>Folio Fiscal:</span> <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/><br/>
+                    <span>Régimen:</span> <span t-field="o.fiscal_position_id" /><br/>
+                    <span>Cfdi Relacionados :</span> <span t-field="o.l10n_mx_edi_origin" /><br/>
+                    <span style="color: #000000; font-family: Arial;">
+                    
+                    <span t-field="o.company_id.partner_id.street_name" />
+                    <span t-field="o.company_id.partner_id.street_number" /> /
+                    <span t-field="o.company_id.partner_id.street_number2" />,
+                    <span t-field="o.company_id.partner_id.street2" />
+                    <span t-field="o.company_id.partner_id.l10n_mx_edi_colony" />,
+                    CP:
+                    <span t-field="o.company_id.partner_id.zip" /><br/>
+
+                    </span>
+                    <span>Fecha y hora de emisión:</span>    <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
+                 
+                </td>
+
+            </tr>
+            <tr><td style="background:#6BBDF9;">DATOS DEL CLIENTE</td><td style="background:#6BBDF9;"></td></tr>
+            <tr>
+                <td>
+                    <span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.name if o.partner_id.parent_id else o.partner_id.name"/><br/>
+                    <span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.vat if o.partner_id.parent_id else o.partner_id.vat"/><br/>
+                    <span>Uso CFDi:</span><span t-field="o.l10n_mx_edi_usage" />
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+       <!--  <table style="margin-top:1em;" border="0" cellspacing="0" width="105%"><colgroup span="18" width="48"></colgroup> <colgroup width="51"></colgroup> <colgroup width="48"></colgroup>
+              <tbody>
+                <tr>
+                    <td style="background:#6BBDF9; font-size:0.8em;   width: 537.45px;" colspan="15" align="left" valign="middle" height="5">
+                        <span>Cliente</span>
+                    </td>
+                    <td style="background:#6BBDF9;font-size:0.8em;  width: 151.817px;" colspan="4" align="left" valign="middle">
+                       <span> EXPEDIDO EN </span>
+                    </td>
+                </tr>
+                <tr>
+                  <td style="font-size:0.8em;  width: 537.45px;" colspan="15" align="left" valign="middle" height="5">
+                    <span style="color: #000000; font-family: Arial; margin-left:0.2em;"> 
+                     
+                    </span>
+                    <span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.name if o.partner_id.parent_id else o.partner_id.name"/>
+                </td>
+                  <td style="font-size:0.8em;  width: 151.817px; border-left: 1px solid #000000;" colspan="4" align="left" valign="middle"><span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.vat if o.partner_id.parent_id else o.partner_id.vat"/></td>
+                  <td style="width: 37.7333px;" align="left" valign="bottom"><span style="color: #000000; font-family: Arial;"></span></td>
+                </tr>
+                <tr>
+                  <td style="font-size:0.8em; width: 537.45px; " colspan="15" align="left" valign="middle" height="15">
+                   <span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.vat if o.partner_id.parent_id else o.partner_id.vat"/>
+                  </td>
+                  <td style="font-size:0.8em;  width: 151.817px; border-left: 1px solid #000000;" colspan="4" align="left" valign="middle"><span style="color: #000000; font-family: Arial;">
+                    <strong style="margin-left:0.2em;">Fecha y hora:</strong>
+                  </span><span t-field="o.partner_id.ref"/></td>
+                </tr>
+             
+                
+              
+              </tbody>
+            </table>
+ -->
+
+            <br/><br/>
+            <table class="table table-condensed" >
+                <thead>
+                  <tr style="font-family:Arial, sans-serif;font-size:10pt; color:#4B0082;">
+                    <!--<th style="width:10%;text-align:left;">Código</th>-->
+                    <th style="width:3%; text-align:left;background:#6BBDF9;">Cantidad.</th>
+                    <th style="width:10%;text-align:left;background:#6BBDF9;">U. Medida</th>
+                    <th style="width:39%;text-align:left; padding-left:0px;background:#6BBDF9;">Código y Descripción</th>
+                    <th style="width:14%;text-align:center;background:#6BBDF9;">Impuesto</th>
+                    <th style="width:11%;background:#6BBDF9;" class="text-left">P. Unitario</th>
+                    <th style="width:11%; padding-right:0px;background:#6BBDF9;" class="text-right">Importe</th>
+                  </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                  <tr t-foreach="o.invoice_line_ids" t-as="l" style="font-family:Arial, sans-serif;font-size:8pt; border-bottom: 1px solid gray;">
+
+                    <!--<td style="text-align:center;">
+                      <span t-field="l.product_id.default_code"/>
+                    </td>-->
+                    <td class="text-center" style="padding:0px;">
+                       <t t-esc="'{0:,.2f}'.format(int(l.quantity))" />
+                    </td>
+                    <td style="text-align:center; padding:0px;">
+                      <span t-field="l.product_id.uom_name"/>
+                    </td>
+                    <td class="text-left" style="padding:0px;">
+                    <span t-raw="'%s &lt;br&gt;' % l.name if l.name.find('] ') &lt; 0 else l.name[l.name.find('] ')+2:]"/>
+                  </td>
+                  <td t-attf-class="text-center {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                            <span t-esc="', '.join(map(lambda x: (x.description or x.name), l.invoice_line_tax_ids))"/>
+                                        </td>
+                  <td class="text-center" style="padding:0px;">
+                    <span t-field="l.price_unit"/>
+                  </td>
+                  <td class="text-right" style="padding:0px;">
+                    <span t-field="l.price_subtotal"
+                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div class="clearfix" style="font-family:Arial, sans-serif;font-size:10pt; margin-top:-10px;">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-3' if report_type != 'html' else 'col-sm-4 col-md-3'} ml-auto">
+                                <table class="table table-sm">
+                                    <tr class="">
+                                        <td style="border-style:none;"><strong>Subtotal</strong></td>
+                                        <td style="border-style:none;" class="text-right">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <tr style="">
+                                            <t t-if="len(o.tax_line_ids) == 1 and o.amount_untaxed == amount_by_group[2]">
+                                                <td><span t-esc="amount_by_group[0]"/></td>
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td>
+                                                    <span t-esc="amount_by_group[0]"/>
+                                                    <span>&amp;nbsp;<span>en</span>
+                                                        <t t-esc="amount_by_group[4]"/>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right o_price_total">
+                                                    <span t-esc="amount_by_group[3]"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </t>
+                                    <tr class="border-black o_total">
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black">
+                                      <td>
+                                        <strong>Moneda</strong>
+                                      </td>
+                                      <td class="text-right">
+                                        <span t-field="o.currency_id" />
+                                      </td>
+                                    </tr>
+
+                   
+                                </table>
+
+                            </div>
+                        </div>
+                        <div style="width:70%; font-family:Arial, sans-serif; font-size:9pt; font-style:italic; text-align:left; margin-top: -22px;">Total con letra: <span style="text-transform: initial;" t-field="o.amount_to_text"/></div>
+                    </div>
+
+                        
+
+
+
+  
+              <br/>
+              <table style=" border:1px solid gray; width:100%; margin-top:-20px;">
+                
+                <div style="width:70%; display:none; font-family:Arial, sans-serif;font-size:9pt; font-style:italic; text-align:left; margin-top:auto; margin-bottom:1em;">
+                  Total con letra: 
+                  <span style="text-transform: initial;" t-field="o.amount_to_text"/>
+                </div>
+              </table>
+             <!--  <table style=" border:1px solid gray; width:100%;" >
+
+                 <tr>
+                  <td colspan="3" style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:10pt; text-align:left; border-right:1px solid gray;">
+                    <span>
+                      <strong>
+                        Datos bancarios para realizar pagos, indicar en referencia el número de factura.
+                      </strong>
+                    </span>
+                  </td>
+                </tr>
+                 <tr>
+                  <td colspan="3" style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:10pt; text-align:left; border-right:1px solid gray; border-bottom:1px solid gray; word-spacing: 18px;">
+                    <span style="word-spacing: 2px;"> 
+                      <strong>Banco:</strong> 
+                    </span><span style="word-spacing: 2px;" t-field="o.banco"/>
+                    <span style="word-spacing: 3px;">
+                      <strong>Número de Cuenta:</strong>
+                    </span>
+                    <span style="letter-spacing: 2px; word-spacing: 10px;" t-field="o.bank"/>
+                    <span>
+                      <strong>CLABE:</strong>
+                    </span>
+                    <span style="letter-spacing: 2px;" t-field="o.clabe"/>
+                    <span>
+                      <strong>Referencia:</strong>
+                    </span><span t-field="o.ultim_digitos"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:33%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray, border-bottom:1px solid gray">
+                    <b>Certificado del Sat</b><br/><span t-field="o.l10n_mx_edi_cfdi_certificate_id.serial_number"/>
+                  </td>
+                  <td style="width:33%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray; border-left:1px solid gray;">
+                    <b>Fecha de Timbrado</b><br/>
+                    <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
+                  </td>
+                  <td style="width:34%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray">
+                    <b>Folio Fiscal</b><br/>
+                    <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/>
+                  </td>
+                </tr>
+                <tr>
+                  <div class="digital-stamp-content">
+                  <td style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray;">
+                    <b>Certificado del Emisor</b><br/><span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/>
+                  </td>
+                </div>
+                  <td style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray">
+                    <b>Método de pago</b><br/>
+                    <span t-field="o.l10n_mx_edi_payment_method_id"/> 
+                    </td>
+                  <td style="width:34%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray">
+                    <b> Últimos 4 digitos de la cuenta bancaria</b><br/>
+                    <span t-raw="'%s &lt;br&gt;' % o.acc_payment and o.acc_payment.last_acc_number or 'N/A'"/>
+                    <span t-field="o.cuent_client"/>
+                  </td> 
+                </tr>
+                <tr>
+                  <td style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray;">
+                    <b>Tipo de Comprobante</b><br/>
+                    <span >
+                      [<t t-esc="xml.get('TipoDeComprobante')" />]
+                    </span>
+                    <t t-if="xml.get('TipoDeComprobante')=='I'">
+                      <span>Ingreso</span>
+                    </t>
+                    <t t-if="not xml.get('TipoDeComprobante')=='I'">
+                      <span>Egreso</span>
+                    </t>
+                    [<span t-field="o.type_document_id.code"/>]  <span t-field="o.type_document_id.name"/>
+                  </td>
+                  <td style="width:33%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:8pt; text-align:center; border-right:1px solid gray">
+                    <b>Forma de pago</b><br/>
+                    <span t-field="o.l10n_mx_edi_payment_method_id"/>
+                  </td>
+                  <td style="width:34%;border-top:1px solid gray;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-right:1px solid gray">
+                    <b>Uso  CFDI</b><br/>
+                    [<span t-field="o.uso_cfdi_id.code"/>]  <span t-field="o.l10n_mx_edi_usage"/>
+                  </td>
+                </tr>
+                
+              </table> -->
+              <table style=" border:1px solid gray; width:100%;" >
+                
+                <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                <div class="row" id="complement">
+                    <div class="complement-details col-9">
+                          <span>
+                              <strong>
+                                Sello digital del emisor:
+                              </strong>
+                              <div style="margin:0px; padding:0px;">
+                                <span t-esc="xml.get('sello', xml.get('Sello', 'No identificado'))"/>
+                              </div>
+                            </span>
+                          <span>
+                              <strong>
+                                Sello digital de SAT
+                              </strong>
+                              <div style="margin:0px; padding:0px;">
+                                <span t-esc="tfd.get('selloSAT', tfd.get('SelloSAT', 'No identificado'))"/>
+                              </div>
+                            </span>
+                          <span>
+                              <strong>
+                                Cadena original del complemento del certificado digital del SAT      
+                              </strong>
+                              <div style="margin:0px; padding:0px;">
+                                <span class="nowrap" t-esc="tfd_original_string"/>
+                              </div>
+                            </span>
+                        <div t-if="xml.Emisor.xpath('cfdi:ExpedidoEn', namespaces=xml.nsmap)" class="">
+                              <span>
+                              <strong>
+                                Emitido en
+                              </strong>
+                              <div style="margin:0;" t-if="xml.Emisor.xpath('cfdi:ExpedidoEn', namespaces=xml.nsmap)" class="digital-stamp-content">
+                                  <span t-esc="' | '.join([ '%s: %s' % (key, value) for key, value in xml.Emisor.ExpedidoEn.items()])"/>
+                              </div>
+                            </span>
+                        </div>
+                        <!--<div class="">
+                            <span>
+                              <strong>
+                                Información Extra
+                              </strong>
+                            </span>
+                        </div>
+                        <div class="digital-stamp-content">
+                            <span>Certificado del emisor:</span> <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/>
+                            <span> | SAT Certificate:</span> <span t-esc="tfd.get('NoCertificadoSAT')"/>
+                            <span> | Lugar de expedición:</span> <span t-esc="xml.get('LugarExpedicion')"/>
+                            <span> | Régimen Fiscal:</span><span t-esc="xml.Emisor.get('RegimenFiscal', '')"/>
+                            <span> | Fecha de Emisión:</span> <span t-esc="xml.get('fecha', xml.get('Fecha', '')).replace('T', ' ')"/>
+                            <span> | Fecha de Certificación:</span> <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
+                            <span> | Folio Fiscal:</span> <span t-esc="tfd.get('UUID')"/>
+                        </div>-->
+                        <!--<div class="digital-stamp-content text-center">
+                            <strong>Este documento es una representación impresa de un CFDI</strong>
+                        </div>-->
+                    </div>
+                    <div class="barcode col-3">
+                        <t t-set="sello" t-value="xml.get('Sello', 'No identificado')[-8:]"/>
+                        <img style="height:140px; width:140px;" alt="Barcode" t-att-src="'/report/barcode/?type=QR&amp;value=%s' % quote_plus(                             'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?' + keep_query(                                 re=o.l10n_mx_edi_cfdi_supplier_rfc, rr=o.l10n_mx_edi_cfdi_customer_rfc,                                 tt=o.l10n_mx_edi_cfdi_amount, id=o.l10n_mx_edi_cfdi_uuid)                                 + '&amp;fe=%s' % quote_plus(                                     sello, 'utf-8', 'strict', '=/').replace('%2B', '+'))"/>
+                    </div>
+                </div>
+            </t>
+
+              </table>
+
+
+
+      <!--<table style="width:100%;" >
+                <tr>
+                  <td style="width:70%;font-family:Arial, sans-serif;font-size:7pt; text-align:center;">
+                    <table style=" border:0px solid white; width:100%;" >
+                      <tr>
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt; ">
+                          <b>Sello Digital Emisor</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt;">
+                          <span t-field="o.l10n_mx_edi_sat_status" style="display:block;width:600px;word-wrap:break-word;"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt; ">
+                          <b>Sello Digital SAT</b>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt; ">
+                          <span t-field="o.l10n_mx_edi_sat_status" style="display:block;width:600px;word-wrap:break-word;"/>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt; ">
+                          <b>Cadena Original:</b>
+                        </td>
+                      </tr>
+                      <tr><
+                        <td style="width:100%;font-family:Arial, sans-serif;font-size:7pt; ">
+                          <span t-field="o.​l10n_mx_edi_origin" style="display:block;width:600px;word-wrap:break-word;"/>
+                        </td> 
+                      </tr>
+                    </table>
+                    <br/>
+                  </td>
+                 <td rowspan="3" style="width:40%;font-family:Arial, sans-serif; text-align:center;">
+                    <img t-if="o.cfdi_cbb" t-att-src="'data:image/png;base64,%s' % o.cfdi_cbb" style="width:5cm;height:5cm; "/>
+                  </td>
+                </tr>
+              </table>-->
+
+              <!-- <table style=" border:0px solid white; width:100%;" >
+                <tr>
+                  <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:left;">
+                    “Este documento es una representación impresa de un CFDI”  expedido en 44600 Jalisco  Aprobación: 20170223  Año aprobación: 2017
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:left;">
+                    CFDI Ver. 3.3. Regimen Fiscal: 601 General de Ley Personas Morales           * Efectos fiscales al pago.
+                  </td>
+                </tr>
+
+              </table> -->
+              <!--
+              <div style="text-align:justify;">
+                <span style="color: #000000; font-family: Arial, sans-serif;font-size:9pt;">
+                  <strong>Observaciones:</strong>
+                </span><span style="font-size:10pt;" t-field="o.comment"/>
+              </div>
+              <br/>-->
+            <!--   <div style="text-align:justify; font-family: Arial, sans-serif; font-size:9pt; margin-top:0.5em;">
+               <strong>PAGARE MERCANTIL.</strong> Debo y pagaré incondicionalmente por este pagaré a la orden de <span style="margin-left:0.5em;" t-field="o.company_id.partner_id.name"/>. En esta ciudad de Guadalajara,Jalisco.
+               La cantidad de <span t-field="o.amount_total"/> (<span style="text-transform:uppercase;"  t-field="o.amount_to_text"/>) valor de la mercancía descrita y reciba a mi entera satisfacción. Este
+               pagaré es mercantil y esta regido por la ley general de títulos y operaciones de crédito en su articulo 173 parte final y articulos correlativos por no ser pagaré
+               domiciliado. De no ser liquidado a su vencimiento causara 5% de interés mensual. En caso de cheque devuelto causara una penalización de $950.00 (NOVECIENTOS CINCUENTA PESOS 00/100 M.N) más iva, más una pena de incumplimiento del 5% de interés mensual.
+             </div>
+
+             <br/>
+
+
+             <table style=" border:0px solid white; width:100%;" >
+               <tr>
+                <td style="width:35%; height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                </td>
+                <td style="width:30%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center; ">
+                </td>
+                <td style="width:35%;height:40px;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                </td>
+              </tr>
+              <tr>
+                <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                </td>
+                <td style="width:30%;font-family:Arial, sans-serif;font-size:9pt; text-align:center; border-top:1px solid black;">
+                  <span>NOMBRE Y FIRMA DE CONFORMIDAD</span>
+                </td>
+                <td style="width:35%;font-family:Arial, sans-serif;font-size:9pt; text-align:center;">
+
+                </td>
+              </tr>
+
+            </table> -->
+          </div>
+      <div class="footer text-right">
+                    <span style="font-size:12pt;">Página: </span>
+                    <span class="page"/>
+                    <span style=" font-size:12pt;">/</span>
+                    <span class="topage"/>
+                  </div>
+
+
+
+                </t>
+              </t>
+            </t>
+           
+         </xpath>
+    </template>
+
+   
+
+</odoo>
