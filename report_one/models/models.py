@@ -8,6 +8,8 @@ class amount_to_texts(models.Model):
 	_inherit='sale.order'
 	amount_to_text = fields.Char(compute='_get_amount_to_text', string='Monto en Texto', readonly=True,
 								help='Amount of the invoice in letter')
+	duracion_ser=fields.Float(string='duración del servicio ')
+	entrega=fields.Float(string='tiempos de entrega')
 
 	@api.one
 	@api.depends('amount_total')
@@ -47,6 +49,7 @@ class stock(models.Model):
 	nombre_pro=fields.Char(string="Nombre del Proyecto")
 	nombre_salida=fields.Char(string="Quien entrega")
 	motivo = fields.Many2one('motivo.salida', string='Razon')
+	empleado=fields.Many2one('hr.employee',string='Quien entrega')
 
 class img(models.Model):
 	_inherit='res.company'	

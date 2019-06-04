@@ -150,8 +150,8 @@
                     <div  class="row justify-content-end">
                         <span >Entrega</span><br/>
                         <span>___________________</span><br/>
-                        <span  t-field="o.nombre_salida"/><br/>
-                        <span>Ingeniero de Soporte</span><br/>
+                        <span  t-field="o.empleado"/><br/>
+                        <span t-field="o.empleado.job_title"/><br/>
                         <span >One IT</span>
 
                     </div>

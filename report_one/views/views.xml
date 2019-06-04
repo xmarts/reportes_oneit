@@ -44,7 +44,8 @@
              <xpath expr="//field[@name='picking_type_id']" position="after"> 
            
               <field name="nombre_pro"/>
-              <field name="nombre_salida"/>
+              <field name="nombre_salida" invisible="1"/>
+              <field name="empleado"/>
               <field name="motivo"/>
 
             
@@ -56,6 +57,27 @@
             <field name="modelo"/>
           </xpath>  
 
+        
+
+
+        </field>
+      </record>  
+
+       <record model='ir.ui.view' id="xmarts_sale_order">
+        <field name="name">xmarts_sale_order</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+
+             <xpath expr="//field[@name='payment_term_id']" position="after"> 
+           
+              <field name="duracion_ser" widget="float_time"/>
+              <field name="entrega" widget="float_time"/>
+              
+
+            
+            </xpath> 
+           
         
 
 
