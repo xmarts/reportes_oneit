@@ -127,7 +127,9 @@
                 <td>
                     <span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.name if o.partner_id.parent_id else o.partner_id.name"/><br/>
                     <span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.vat if o.partner_id.parent_id else o.partner_id.vat"/><br/>
-                    <span>Uso CFDi:</span><span t-field="o.l10n_mx_edi_usage" />
+                    <span>Uso CFDi:</span><span t-field="o.l10n_mx_edi_usage" /><br/>
+                     <span>Metodo de Pago:</span><span t-field="o.payment_term_id" /><br/>
+                      <span>Forma de Pago:</span><span t-field="o.l10n_mx_edi_payment_method_id" />
                 </td>
                 <td></td>
             </tr>

@@ -10,7 +10,7 @@
                              <img t-attf-src="data:image/*;base64,{{doc.company_id.logo}}" />
                         </div> 
 
-                        <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;opacity:0.25;">
+                        <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;">
                     <table style=" border:0px solid white; width:100%; font-size: 12px;" >
                         <tr>
                             <td class="text-left" style="position: absolute;
@@ -30,15 +30,15 @@
                            </t>
                           
                     
-                    <span t-if="doc.company_id.email" ><span t-field="doc.company_id.email"/></span> | 
-                    <span t-if="doc.company_id.website" ><span t-field="doc.company_id.website"/></span>
+                    <strong t-if="doc.company_id.email" ><strong t-field="doc.company_id.email"/></strong> | 
+                    <strong t-if="doc.company_id.website" ><strong t-field="doc.company_id.website"/></strong>
                     </t><br/>
                     
               
                             </td>
                             <td class="text-right">
 
-                             <img t-attf-src="data:image/*;base64,{{doc.company_id.upload_image}}" />
+                             <img t-attf-src="data:image/*;base64,{{doc.company_id.upload_image}}" style="opacity:0.25;"/>
                     
                             </td>
 
@@ -58,12 +58,12 @@
                              and doc.partner_invoice_id != doc.partner_id
                              or doc.partner_shipping_id != doc.partner_invoice_id">
             <t t-set="information_block">
-                <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and shipping address:</strong>
-                <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing address:</strong>
+                <strong t-if="doc.partner_shipping_id == doc.partner_invoice_id">Dirección de facturación y envío.:</strong>
+                <strong t-if="doc.partner_shipping_id != doc.partner_invoice_id">Dirección de facturación:</strong>
                 <div t-field="doc.partner_invoice_id"
                 t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 <t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-                    <strong>Shipping address:</strong>
+                    <strong>Dirección de Envío:</strong>
                     <div t-field="doc.partner_shipping_id"
                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                 </t>
@@ -75,10 +75,10 @@
             <h2>
                 <t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
                     <span t-if="doc.state not in ['draft','sent']">ORDEN DE VENTA # </span>
-                    <span t-if="doc.state in ['draft','sent']">Quotation # </span>
+                    <span t-if="doc.state in ['draft','sent']">Cotización # </span>
                 </t>
                 <t t-if="env.context.get('proforma', False) or is_pro_forma">
-                    <span>Pro-Forma Invoice # </span>
+                    <span>Factura de proforma # </span>
                 </t>
                 <span t-field="doc.name"/>
             </h2>
@@ -90,27 +90,27 @@
 
             <div class="row mt32 mb32" id="informations">
                 <div t-if="doc.client_order_ref" class="col-auto mw-100 mb-2">
-                    <strong>Your Reference:</strong>
+                    <strong>Referencia:</strong>
                     <p class="m-0" t-field="doc.client_order_ref"/>
                 </div>
                 <div t-if="doc.confirmation_date and doc.state not in ['draft','sent']" class="col-auto mw-100 mb-2">
-                    <strong>Date Ordered:</strong>
+                    <strong>Fecha pedido:</strong>
                     <p class="m-0" t-field="doc.confirmation_date"/>
                 </div>
                 <div t-if="doc.date_order and doc.state in ['draft','sent']" class="col-auto mw-100 mb-2">
-                    <strong>Quotation Date:</strong>
+                    <strong>Fecha de cotización:</strong>
                     <p class="m-0" t-field="doc.date_order"/>
                 </div>
                 <div t-if="doc.user_id.name" class="col-auto mw-100 mb-2">
-                    <strong>Salesperson:</strong>
+                    <strong>Vendedor:</strong>
                     <p class="m-0" t-field="doc.user_id"/>
                 </div>
                 <div name="payment_term" t-if="doc.payment_term_id" class="col-auto mw-100 mb-2">
-                    <strong>Payment Terms:</strong>
+                    <strong>Términos de pago:</strong>
                     <p class="m-0" t-field="doc.payment_term_id"/>
                 </div>
                 <div t-if="doc.validity_date and doc.state in ['draft', 'sent']" class="col-auto mw-100 mb-2">
-                    <strong>Expiration Date:</strong>
+                    <strong>Fecha de caducidad:</strong>
                     <p class="m-0" t-field="doc.validity_date"/>
                 </div>
             </div>
@@ -127,9 +127,9 @@
                         <t t-set="colspan" t-value="5"/>
                         <th style="color:#FFFFFF; background:#6BBDF9;" class="text-left">Numero de parte</th>
                         <th style="color:#FFFFFF; background:#6BBDF9;" class="text-left">Marca /Modelo</th>
-                        <th style="color:#FFFFFF; background:#6BBDF9;" class="text-left">Description</th>
+                        <th style="color:#FFFFFF; background:#6BBDF9;" class="text-left">Descripción</th>
                         <th style="color:#FFFFFF; background:#6BBDF9;" class="text-right">Cantidad</th>
-                        <th style="color:#FFFFFF; background:#6BBDF9;" class="text-right">Presio Unitario</th>
+                        <th style="color:#FFFFFF; background:#6BBDF9;" class="text-right">Precio Unitario</th>
                         <th style="color:#FFFFFF; background:#6BBDF9;" t-if="display_discount" class="text-right" groups="sale.group_discount_per_so_line">
                             <span>Disc.(%)</span>
                             <!-- TODO: remove in master -->
@@ -138,7 +138,7 @@
                        <!--  <th style="color:#FFFFFF; background:#6BBDF9;" class="text-right">Taxes</th> -->
                         <th style="color:#FFFFFF; background:#6BBDF9;" class="text-right">
                             <t groups="account.group_show_line_subtotals_tax_excluded">Precio Extendido</t>
-                            <t groups="account.group_show_line_subtotals_tax_included">Total Price</t>
+                            <t groups="account.group_show_line_subtotals_tax_included">Total Precio</t>
                         </th>
                     </tr>
                 </thead>
@@ -259,13 +259,13 @@
                     <span t-field="doc.payment_term_id.note"/>
                 </p>
                 <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.sudo().note">
-                    <strong>Fiscal Position Remark:</strong>
+                    <strong>Observación de la posición fiscal:</strong>
                     <span t-field="doc.fiscal_position_id.sudo().note"/>
                 </p>
             </div>
             <div t-if="doc.signature" class="mt32 ml16 mr16" name="signature">
                 <div class="offset-8">
-                    <strong>Signature</strong>
+                    <strong>Firma</strong>
                 </div>
                 <div class="offset-8">
                     <img t-att-src="image_data_uri(doc.signature)" style="max-height: 4cm; max-width: 8cm;"/>
