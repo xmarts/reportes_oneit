@@ -34,7 +34,7 @@
                     
               
                             </td>
-                            <td class="text-right" style="opacity:0.25;">
+                            <td class="text-right" style="opacity:1;">
 
                              <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}" />
                             </td>
