@@ -8,12 +8,13 @@
                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" />
                         </div> 
 
-                        <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;">
+                        <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;opacity:0.25;">
                     <table style=" border:0px solid white; width:100%; font-size: 12px;" >
                         <tr>
                             <td class="text-left" style="position: absolute;
-                              bottom: 48px;
+                              bottom: 62px;
                               left: 0;
+                            
                               ">
                                 <br/>
                                 <br/>
@@ -27,14 +28,13 @@
                             <span t-esc="st.name"/><br/>
                            </t>
                           
+                          </t>
                     
-                    <strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
-                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong>
-                    </t><br/>
+                   
                     
               
                             </td>
-                            <td class="text-right" style="opacity:1;">
+                            <td class="text-right" >
 
                              <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}" />
                             </td>
@@ -171,11 +171,29 @@
             </div>
             <p t-field="o.notes"/>
              <div class="footer">
-                <div class="text-center">
-                <span>Atentamente</span><br/>
-                <span t-esc="o.user_id.name" /><br/>
-                <span t-esc="o.user_id.email" />
-            </div>
+              
+               <table>
+                <tr>
+                  <td></td>
+                  <td style="padding-left:15px;"><span>Atentamente</span><br/></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td style="padding-left:20px;"><span t-esc="o.user_id.name" /><br/></td>
+                  <td></td>
+                </tr>
+                 <tr>
+                  <td  style="font-size: 12px;
+                              "><strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
+                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong></td>
+                  <td style="padding-left:15px;"><span t-esc="o.user_id.email" /><br/></td>
+                  <td></td>
+                </tr>
+              </table>
+
+
+                    
             </div>
             <div class="oe_structure"/>
         </div>
