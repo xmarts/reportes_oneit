@@ -10,6 +10,9 @@ class amount_to_texts(models.Model):
 								help='Amount of the invoice in letter')
 	duracion_ser=fields.Float(string='duración del servicio ')
 	entrega=fields.Float(string='tiempos de entrega')
+	ingeniero_pre=fields.Many2one('res.users', string="Ing Preventa")
+	administrador_venta=fields.Char(string="Administrador de venta")
+
 
 	@api.one
 	@api.depends('amount_total')
@@ -33,6 +36,12 @@ class amount_to_texts(models.Model):
 	@api.depends('amount_total')
 	def _get_amount_to_text(self):
 		self.amount_to_text = amount_to_text.get_amount_to_text(self, self.amount_total)
+
+class campos_purchase(models.Model):
+	_inherit='sale.order.line'
+
+	marca=fields.Char(string="Marca")
+	modelo=fields.Char(string="Modeo")
 	
 	
 class campos_purchase(models.Model):
