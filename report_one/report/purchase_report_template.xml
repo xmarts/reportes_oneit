@@ -243,11 +243,12 @@
                 </div>
                 <p t-field="doc.note"/>
                 <p t-if="doc.payment_term_id.note">
-                    <span t-field="doc.payment_term_id.note"/><br/>
+                    <span t-field="doc.payment_term_id.note"/>
+                </p>
+                <br/>
                     <span>De vernos beneficiados con su elección favor de depositar a favor de la razón social “Redes Tecnológicas de Occidente S.A. de C.V.” en la siguiente cuenta bancaria.
                     - Banco: Banamex - Sucursal: 7006 , Cuenta: 6860963 - Clabe Interbancaria: 002320700668609630 - Divisa: Pesos Mexicanos MXN.
                     - Banco: Banamex - Sucursal: 380, Cuenta: 9438928 - Clabe Interbancaria: 002320038094389283 - Divisa: Dólares Americanos USD. </span>
-                </p>
                 <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.sudo().note">
                     <strong>Observación de la posición fiscal:</strong>
                     <span t-field="doc.fiscal_position_id.sudo().note"/>
