@@ -3,15 +3,14 @@
     'name': "report_one",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Modificacion en el diseño de los reportes de ventas, compras, inventario y facturacion""",
 
     'description': """
-        Long description of module's purpose
+        Modificacion de diseño de reportes
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "Xmarts",
+    'website': "http://www.xmarts.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/12.0/odoo/addons/base/data/ir_module_category_data.xml

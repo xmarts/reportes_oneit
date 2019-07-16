@@ -8,8 +8,8 @@ class amount_to_texts(models.Model):
 	_inherit='sale.order'
 	amount_to_text = fields.Char(compute='_get_amount_to_text', string='Monto en Texto', readonly=True,
 								help='Amount of the invoice in letter')
-	duracion_ser=fields.Float(string='duración del servicio ')
-	entrega=fields.Float(string='tiempos de entrega')
+	duracion_ser=fields.Char(string='duración del servicio ')
+	entrega=fields.Char(string='tiempos de entrega')
 	ingeniero_pre=fields.Many2one('res.users', string="Ing Preventa")
 	administrador_venta=fields.Char(string="Administrador de venta")
 

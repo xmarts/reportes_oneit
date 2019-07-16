@@ -5,25 +5,22 @@
         <xpath expr="//t[@t-call='web.external_layout']" position="replace">
         
             <t t-call="web.basic_layout">
-                 <div class="header" >
-                    <div class = 'col-xs-6 text-left' style="padding-top:10px">    
-                             <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" />
+                 <div class="header">
+                    <div class="col-xs-6 text-left" style="padding-top:10px">    
+                             <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" width="40%"/>
                         </div> 
 
-                        <div class = 'col-xs-6 text-left' style="opacity:0.25;top:800px;position:absolute;width:100%;">
-                    <table style=" border:0px solid white; width:100%; font-size: 12px;" >
+                        <div class="col-xs-6 text-left" style="opacity:0.25;top:800px;position:absolute;width:100%;">
+                    <table style=" border:0px solid white; width:100%; font-size: 12px;">
                         <tr>
-                            <td class="text-left" style="position: absolute;
-                              bottom: 60px;
-                              left: 0;
-                              ">
+                            <td class="text-left" style="position: absolute;                               bottom: 60px;                               left: 0;                               ">
                                 <br/>
                                 <br/>
-                              <span t-if="o.company_id.phone" >Telefono: <span t-field="o.company_id.phone"/></span><br/>
+                              <span t-if="o.company_id.phone">Telefono: <span t-field="o.company_id.phone"/></span><br/>
                               <t t-foreach="o.company_id" t-as="com">
                          <span t-esc="com.street"/><br/>
                          <span t-esc="com.street2"/><br/>
-                         <span t-if="o.company_id.phone" >C.P.: <span t-field="o.company_id.phone"/></span>,
+                         <span t-if="o.company_id.phone">C.P.: <span t-field="o.company_id.phone"/></span>,
                          <span t-esc="com.city"/>,
                            <t t-foreach="com.state_id" t-as="st">
                             <span t-esc="st.name"/><br/>
@@ -34,9 +31,9 @@
                     
               
                             </td>
-                            <td class="text-right" >
+                            <td style="opacity:0;" class="text-right">
 
-                            <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}" />
+                            <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}"/>
                             </td>
 
                         </tr>
@@ -48,12 +45,11 @@
                       
                        </div> 
 
-                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
                 <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
                 <t t-if="partner" name="partner_header">
                     <t t-set="address">
-                        <div t-esc="partner"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/>
+                        <div t-esc="partner" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
                    </t>
                 </t>
 
@@ -93,10 +89,10 @@
                             <span t-esc="st.name"/><br/>
                            </t>
                             <t t-if="o.state == 'done'">
-                                        <span t-field="o.date_done" t-field-options='{"format": "YMMd"}'/>
+                                        <span t-field="o.date_done" t-field-options="{&quot;format&quot;: &quot;YMMd&quot;}"/>
                                    </t>
                                    <t t-if="o.state != 'done'">
-                                        <span t-field="o.scheduled_date" t-field-options='{"format": "YMMd"}'/>
+                                        <span t-field="o.scheduled_date" t-field-options="{&quot;format&quot;: &quot;YMMd&quot;}"/>
                                    </t>
                                    <span t-field="o.name"/>
                     </div>
@@ -105,8 +101,7 @@
                     <br/>
 
                     <strong>DOCUMENTO DE ENTREGA DE EQUIPAMIENTO</strong><br/>
-                    <span>El presente documento celebra la entrega por parte de la empresa REDES TECNOLOGICAS DE OCCIDENTE S.A. DE C.V. a RED DE
-                    CARRETERAS DE OCCIDENTE S.A.B. DE C.V., de componentes del proyecto</span><span> </span><strong t-field="o.nombre_pro"/>.
+                    <span>El presente documento celebra la entrega por parte de la empresa</span>&#160;&#160; <strong t-field="o.company_id.name"> </strong> a&#160;&#160; <strong t-field="o.partner_id"> </strong>, <span>de componentes del proyecto</span><span> </span><strong t-field="o.nombre_pro"/>.
                     <table class="table table-sm mt48" t-if="o.state!='done'">
                         <thead>
                             <tr><th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Partida</strong></th>
@@ -142,22 +137,22 @@
                                 </td>
                                 <td style=" border:1px solid #000000;">
                                          <t t-foreach="move.move_line_ids" t-as="mls">
-                                            <t t-esc="mls.lot_name" />
+                                            <t t-esc="mls.lot_name"/>
                                           </t>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div  class="row justify-content-end">
-                        <span >Entrega</span><br/>
+                    <div class="row justify-content-end">
+                        <span>Entrega</span><br/>
                         <span>___________________</span><br/>
-                        <span  t-field="o.empleado"/><br/>
+                        <span t-field="o.empleado"/><br/>
                         <span t-field="o.empleado.job_title"/><br/>
-                        <span >One IT</span>
+                        <span>One IT</span>
 
                     </div>
                     <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'">
-                        <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')" />
+                        <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')"/>
                         <thead>
                             <tr>
                                 <th><strong>Producto</strong></th>
@@ -197,10 +192,10 @@
                         </t>
                     </p>
                      <div class="footer" style="padding-top:45px; font-size:12px;">
-                        <div class="text-left" >
+                        <div class="text-left">
 
-                    <strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
-                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong>
+                    <strong t-if="o.company_id.email"><strong t-field="o.company_id.email"/></strong> | 
+                    <strong t-if="o.company_id.website"><strong t-field="o.company_id.website"/></strong>
                     </div>
                     </div>
                 </div>

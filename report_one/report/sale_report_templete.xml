@@ -5,7 +5,7 @@
     <t t-call="web.basic_layout">
         <div class="header" >
                     <div class = 'col-xs-6 text-left' style="padding-top:10px">    
-                             <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" />
+                             <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}"  width="40%"/>
                         </div> 
 
                         <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;opacity:0.25;">
@@ -34,7 +34,7 @@
                     
               
                             </td>
-                            <td class="text-right" >
+                            <td style="opacity:0;" class="text-right" >
 
                              <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}" />
                             </td>

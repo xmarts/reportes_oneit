@@ -74,8 +74,8 @@
 
              <xpath expr="//field[@name='payment_term_id']" position="after"> 
            
-              <field name="duracion_ser" widget="float_time"/>
-              <field name="entrega" widget="float_time"/>
+              <field name="duracion_ser"/>
+              <field name="entrega"/>
               
 
             
