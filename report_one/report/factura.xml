@@ -1,13 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+  <data>
 
      <template id="report_account_document" inherit_id="account.report_invoice_document">
            <xpath expr="//t[@t-call='web.external_layout']" position="replace">
             <t t-call="web.html_container">
             <t t-call="web.basic_layout">
       <t t-foreach="docs" t-as="o">
+        <div class="header">
+           <table style="font-size:12px;" width="100%">
+            <tr>
+                <td width="30%" style="background:#6BBDF9;" aling="center">
+                        <span>Factura</span>
+                </td>
+                <td width="70%" style="background:#6BBDF9;" aling="center">
+                        <span t-field="o.number"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="30%" aling="center" >
+                  <div style="padding-top:40px; padding-left:40px;">
+                    <img src="/report_one/static/description/Facturas.png" />
+                    </div>
+                </td>
+                <td width="70%" valign="top"  aling="center" >
+                  <div style="position:absolute; top:25px; center:0;">
+                    <span t-esc="o.company_id.name"/><br/>
+                    <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
+                    <span>No de serie del Certificado del CSD:</span><br/>
+                    <!-- <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/> -->
+                    <span>Folio Fiscal:</span> <!-- <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/> --><br/>
+                    <span>Régimen:</span> <span t-field="o.fiscal_position_id"/><br/>
+                    <span>Cfdi Relacionados :</span> <span t-field="o.l10n_mx_edi_origin"/><br/>
+                    <span style="color: #000000; font-family: Arial;">
+                    
+                    <span t-field="o.company_id.partner_id.street_name"/>
+                    <span t-field="o.company_id.partner_id.street_number"/> /
+                    <span t-field="o.company_id.partner_id.street_number2"/>,
+                    <span t-field="o.company_id.partner_id.street2"/>
+                    <span t-field="o.company_id.partner_id.l10n_mx_edi_colony"/>,
+                    CP:
+                    <span t-field="o.company_id.partner_id.zip"/><br/>
 
-          <div class="page">
+                    </span>
+                    <span>Fecha y hora de emisión:</span>   <!--  <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/> -->
+                 </div>
+                </td>
+
+            </tr>
+
+
+        
+        </table>
+
+        </div>
+          <div class="page" style="padding-top:30px;">
             <t t-if="not o and doc">
               <t t-set="o" t-value="doc"/>
             </t>
@@ -24,47 +71,8 @@
                 <t t-set="tfd_original_string" t-value="o._get_l10n_mx_edi_cadena()"/>
             </t>
 
-        <div class="text-right">
-        </div>
-
-        <table style="font-size:12px;" width="100%">
-            <tr>
-                <td style="background:#6BBDF9;" aling="center">
-                        <span>Factura</span>
-                </td>
-                <td style="background:#6BBDF9;" aling="center">
-                        <span t-field="o.number"/>
-                </td>
-            </tr>
-            <tr>
-                <td aling="center" style="positoin:relative;">
-                    <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}"  width="80%"/>
-                    
-                </td>
-                <td>
-                    <span t-esc="o.company_id.name"/><br/>
-                    <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
-                    <span>No de serie del Certificado del CSD:</span><br/>
-                    <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/>
-                    <span>Folio Fiscal:</span> <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/><br/>
-                    <span>Régimen:</span> <span t-field="o.fiscal_position_id"/><br/>
-                    <span>Cfdi Relacionados :</span> <span t-field="o.l10n_mx_edi_origin"/><br/>
-                    <span style="color: #000000; font-family: Arial;">
-                    
-                    <span t-field="o.company_id.partner_id.street_name"/>
-                    <span t-field="o.company_id.partner_id.street_number"/> /
-                    <span t-field="o.company_id.partner_id.street_number2"/>,
-                    <span t-field="o.company_id.partner_id.street2"/>
-                    <span t-field="o.company_id.partner_id.l10n_mx_edi_colony"/>,
-                    CP:
-                    <span t-field="o.company_id.partner_id.zip"/><br/>
-
-                    </span>
-                    <span>Fecha y hora de emisión:</span>    <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
-                 
-                </td>
-
-            </tr>
+              <table style="font-size:12px;" width="100%">
+            
             <tr><td style="background:#6BBDF9;">DATOS DEL CLIENTE</td><td style="background:#6BBDF9;"/></tr>
             <tr>
                 <td>
@@ -78,17 +86,17 @@
             </tr>
         </table>
 
-
-            <br/><br/>
+        
+       
             <table class="table table-condensed" style="font-size:12px;">
                 <thead>
                   <tr style="font-family:Arial, sans-serif;font-size:10pt; color:#000000;">
                     <th style="width:3%; text-align:left;background:#6BBDF9;">Cantidad.</th>
                     <th style="width:10%;text-align:left;background:#6BBDF9;">U. Medida</th>
-                    <th style="width:39%;text-align:left; padding-left:0px;background:#6BBDF9;">Código y Descripción</th>
+                    <th style="width:39%;text-align:center; padding-left:0px;background:#6BBDF9;">Código y Descripción</th>
                     <th style="width:14%;text-align:center;background:#6BBDF9;">Impuesto</th>
                     <th style="width:11%;background:#6BBDF9;" class="text-left">P. Unitario</th>
-                    <th style="width:11%; padding-right:0px;background:#6BBDF9;" class="text-right">Importe</th>
+                    <th style="width:11%; text-align:center;background:#6BBDF9;" class="text-right">Importe</th>
                   </tr>
                 </thead>
                 <tbody class="invoice_tbody">
@@ -251,7 +259,6 @@
            
          </xpath>
     </template>
-
-   
+    </data>
 
 </odoo>

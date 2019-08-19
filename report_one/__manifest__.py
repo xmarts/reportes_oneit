@@ -28,7 +28,7 @@
         'views/templates.xml',
         'report/sale_report_templete.xml',
         'report/purchase_report_template.xml',
-        'report/report_stock.xml',
+        'report/report_stock.xml',        
         'report/factura.xml',
     ],
     # only loaded in demonstration mode
