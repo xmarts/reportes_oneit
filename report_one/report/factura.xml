@@ -28,8 +28,8 @@
                     <span t-esc="o.company_id.name"/><br/>
                     <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
                     <span>No de serie del Certificado del CSD:</span><br/>
-                    <!-- <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/> -->
-                    <span>Folio Fiscal:</span> <!-- <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/> --><br/>
+                    <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/>
+                    <span>Folio Fiscal:</span> <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/><br/>
                     <span>Régimen:</span> <span t-field="o.fiscal_position_id"/><br/>
                     <span>Cfdi Relacionados :</span> <span t-field="o.l10n_mx_edi_origin"/><br/>
                     <span style="color: #000000; font-family: Arial;">
@@ -43,7 +43,7 @@
                     <span t-field="o.company_id.partner_id.zip"/><br/>
 
                     </span>
-                    <span>Fecha y hora de emisión:</span>   <!--  <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/> -->
+                    <span>Fecha y hora de emisión:</span>    <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
                  </div>
                 </td>
 
