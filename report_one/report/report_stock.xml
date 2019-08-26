@@ -5,7 +5,13 @@
         <xpath expr="//t[@t-call='web.external_layout']" position="replace">
         
             <t t-call="web.basic_layout">
-                 <div class="header">
+
+                   <div class="header">
+        <div class = 'col-xs-6 text-left' >    
+                             <img src="/report_one/static/description/Facturas.png" />
+                        </div> 
+        </div>
+               <!--   <div class="header">
                     <div class="col-xs-6 text-left" style="padding-top:10px">    
                              <img t-attf-src="data:image/*;base64,{{o.company_id.logo}}" width="40%"/>
                         </div> 
@@ -43,7 +49,7 @@
 
                           
                       
-                       </div> 
+                       </div>  -->
 
                 <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
                 <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
@@ -100,13 +106,13 @@
                     <br/>
                     <br/>
 
-                    <strong>DOCUMENTO DE ENTREGA DE EQUIPAMIENTO</strong><br/>
-                    <span>El presente documento celebra la entrega por parte de la empresa</span>&#160;&#160; <strong t-field="o.company_id.name"> </strong> a&#160;&#160; <strong t-field="o.partner_id"> </strong>, <span>de componentes del proyecto</span><span> </span><strong t-field="o.nombre_pro"/>.
+                    <strong>DOCUMENTO DE RECEPCION DE EQUIPAMIENTO</strong><br/>
+                    <span>El presente documento celebra la recepción de componentes de la orden de compra enviada a</span>&#160;&#160; <strong t-field="o.company_id.name"/>.
                     <table class="table table-sm mt48" t-if="o.state!='done'">
                         <thead>
                             <tr><th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Partida</strong></th>
                             <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Cantidad</strong></th>
-                            <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Marca/modelo</strong></th>
+                            <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Marca/Modelo</strong></th>
                             <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Descripcion</strong></th>
                                 <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Numero de serie</strong></th>
                             </tr>
@@ -144,7 +150,7 @@
                         </tbody>
                     </table>
                     <div class="row justify-content-end">
-                        <span>Entrega</span><br/>
+                        <span>Recepción</span><br/>
                         <span>___________________</span><br/>
                         <span t-field="o.empleado"/><br/>
                         <span t-field="o.empleado.job_title"/><br/>
@@ -191,18 +197,71 @@
                             No se pudieron enviar todos los artículos, los restantes se enviarán tan pronto como estén disponibles.
                         </t>
                     </p>
-                     <div class="footer" style="padding-top:45px; font-size:12px;">
+                     <div class="footer">
                         <div class="text-left">
-
+                          <table style="font-size:12px;" width="100%">
+                    
+                        <tr>
+                         <td style="opacity:0.5;" t-if="o.company_id.phone">Telefono: <span t-field="o.company_id.phone"/></td>
+                     </tr>
+                     <tr>
+                         <td style="opacity:0.5;"><t t-foreach="o.company_id" t-as="com">
+                         <span t-esc="com.street"/></t></td>
+                         </tr>
+                     <tr>
+                         <td style="opacity:0.5;"><t t-foreach="o.company_id" t-as="co"><span t-if="co.street"> <span t-esc="co.street2"/></span></t></td>
+                         </tr>
+                     <tr>
+                         <td style="opacity:0.5;">  <span t-if="o.company_id.phone">C.P.: <span t-field="o.company_id.phone"/></span>,
+                         <t t-foreach="o.company_id" t-as="c">
+                         <span t-esc="c.city"/>,
+                           <t t-foreach="c.state_id" t-as="st">
+                            <span t-esc="st.name"/>
+                        </t>
+                           </t>
+                       </td>
+                       </tr>
+                     <tr>
+                       <td>
                     <strong t-if="o.company_id.email"><strong t-field="o.company_id.email"/></strong> | 
                     <strong t-if="o.company_id.website"><strong t-field="o.company_id.website"/></strong>
-                    </div>
+                       </td>
+                       </tr>
+                    
+                        </table>  
+                  </div>
                     </div>
                 </div>
             </t>
          </xpath>
     </template>
 
+     <record id="paperformat_report_stock" model="report.paperformat"> 
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+    </record>
+             
+
+
+      <report
+            string="Delivery Slip"
+            id="stock.action_report_delivery"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="stock.report_deliveryslip"
+            file="stock.report_deliveryslip"
+            print_report_name="'Delivery Slip - %s - %s' % (object.partner_id.name or '', object.name)"
+            paperformat="report_one.paperformat_report_stock"
+        />
    
 
 </odoo>

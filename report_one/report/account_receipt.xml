@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+
+     <template id="report_account_documents" inherit_id="account.report_payment_receipt_document">
+           <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <t t-call="web.html_container">
+            <t t-call="web.basic_layout">              
+            <t t-foreach="docs" t-as="o">
+                 <div class="page">
+          
+                  <table width="100%" style="border:0;">
+                <!--New global variables-->
+                <t t-set="xml" t-value="o.l10n_mx_edi_get_xml_etree()"/>
+                <t t-set="tfd" t-value="o.l10n_mx_edi_get_tfd_etree(xml)"/>
+                <t t-set="tfd_original_string" t-value="o._get_l10n_mx_edi_cadena()"/>
+                <t t-set="namem" t-value="xml.Emisor.get('Nombre')" />
+                <t t-set="Regimenf" t-value="xml.Emisor.get('RegimenFiscal')" />
+                <t t-set="Emisorrfc" t-value="xml.Emisor.get('Rfc')" />
+                <t t-set="namrec" t-value="xml.Receptor.get('Nombre')" />
+                <t t-set="Receptorrfc" t-value="xml.Receptor.get('Rfc')" />
+
+                    <tr style="background:#6BBDF9; font-family:Times New Roman;">
+                      <td width="50%" ><h4>RECIBO ELECTRONICAO DE PAGO</h4></td>
+                      <td width="50%" style="padding-left:10px;"><span t-field="o.name"/></td>
+                    </tr>
+                     <tr >
+                      <td width="50%" ><strong>RFC Emisor</strong></td>
+                      <td width="50%" ><span t-esc="Emisorrfc"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Nombre Emisor</strong></td>
+                      <td width="50%" ><span t-esc="namem"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Regimen Fiscal</strong></td>
+                      <td width="50%" ><span t-esc="Regimenf"/></td>
+                    </tr>
+                       <tr >
+                      <td width="50%" height="20px;"></td>
+                      <td width="50%" height="20px;"></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Lugar de Expedicion</strong></td>
+                      <td width="50%" >   <span t-esc="xml.get('LugarExpedicion')"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Fecha y Hora Exp.</strong></td>
+                      <td width="50%" ><span t-esc="xml.get('Fecha')"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Folio fiscal (UUID):</strong></td>
+                      <td width="50%" ><span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>No. Serie Certificado SAT:</strong></td>
+                      <td width="50%" ><span t-esc="tfd.get('NoCertificadoSAT')"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>No. Certificado Emisor:</strong></td>
+                      <td width="50%" ><span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/></td>
+                    </tr>
+                     <tr style="background:#6BBDF9;">
+                      <td width="50%" height="10px;"></td>
+                      <td width="50%" height="10px;"></td>
+                    </tr>
+                     <tr >
+                      <td width="50%" ><strong>Rfc Receptor:</strong></td>
+                      <td width="50%" ><span t-esc="Receptorrfc"/></td>
+                    </tr>
+                    <tr >
+                      <td width="50%" ><strong>Nombre Receptor</strong></td>
+                      <td width="50%" ><span t-esc="namrec"/></td>
+                    </tr>
+                       <tr style="background:#6BBDF9;">
+                      <td width="50%" height="10px;"></td>
+                      <td width="50%" height="10px;"></td>
+                    </tr>
+
+                  </table>
+                   <div  style="font-family:Times New Roman;" class="row mt32 mb32">
+                  
+                <div class="col-3 bm-2">
+                    <strong >Clave Prod</strong>
+                    <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('ClaveProdServ')" />
+                    </t>
+                </div>
+                 <div  class="col-2 bm-2">
+                    <strong>Cantidad</strong>
+                    <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('Cantidad')" />
+                    </t>
+                </div>
+                 <div  class="col-2 bm-2">
+                    <strong>Clave Unidad</strong>
+                      <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('ClaveUnidad')" />
+                    </t>
+                </div>
+                 <div  class="col-2 bm-2">
+                    <strong>Descripción</strong>
+                      <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('Descripcion')" />
+                    </t>
+                </div>
+                   <div  class="col-2 bm-2">
+                    <strong>Valor Unitario</strong>                    
+                      <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('ValorUnitario')" />
+                    </t>
+                </div>
+                 <div  class="col-2 bm-2">
+                    <strong>Importe</strong>
+                    <br/>
+                    <t t-foreach="xml.Conceptos" t-as="con">
+                      <span t-esc="con.Concepto.get('Importe')" />
+                    </t>
+                </div>
+            </div> 
+                   
+          
+                  <div  style="font-family:Times New Roman;" class="row mt32 mb32">
+                    <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
+               <t t-set="comp" t-value="xml.Complemento" />
+               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
+                  <t t-foreach="tfd.Pago" t-as="rec">
+                  
+                <div class="col-3 bm-2">
+                
+                    <strong >Monto</strong>
+                    <br/>
+                      <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
+                </div>
+                 <div  class="col-3 bm-2">
+                    <strong>Moneda</strong>
+                    <br/>
+                     <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
+                </div>
+                  
+                 <div  class="col-3 bm-2">
+                    <strong>Forma de Pago:</strong>
+                      <br/>
+                   <span t-esc="rec.get('FormaDePagoP')" />
+                </div>
+                  
+                   <div  class="col-3 bm-2">
+                    <strong>Fecha de Pago</strong>
+                    <br/>
+                     <span t-esc="rec.get('FechaPago')" />
+                </div>
+                 </t>
+            </div>
+            <table width="100%" style="border:0;">
+                    <tr style="background:#6BBDF9; font-family:Times New Roman;">
+                      <td width="100%" ><strong>DOCUMENTOS PAGADOS</strong></td>
+                      
+                    </tr>                
+                </table>
+                <table class="table ">
+               <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
+               <t t-set="comp" t-value="xml.Complemento" />
+               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
+               <!-- <span t-field="docs.payments_widget" />-->
+                <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Folio</th>
+                        <th>Moneda</th>
+                        <th>Tipo Cambio</th>
+                        <th>Pagado</th>
+                        <th>Saldo pendiente</th>
+                        <th>UUID</th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <t t-foreach="tfd.Pago" t-as="rec">
+                        <tr>
+                            <t t-set="pagval" t-value="0" />
+                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PUE'">
+                                <t t-set="pagval" t-value="'PUE - Pago en una sola exibicion'" />
+                            </t>
+                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PPD'">
+                                <t t-set="pagval" t-value="'PPD - Pago en parcialidades o diferido'" />
+                            </t>
+                            
+                            <td>
+                                <t  t-esc="rec.DoctoRelacionado.get('Serie')" />
+                               
+                            </td>
+                            <td>
+                                <t t-esc="rec.DoctoRelacionado.get('Folio')" />
+                            </td>
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                 <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
+                            </td>
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('ImpSaldoInsoluto')" />
+                            </td>
+                            
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('IdDocumento')" />
+                            </td>
+                        </tr> 
+                    </t>
+                </tbody>
+             </table>
+                <table width="100%" style="border:0;">
+                   
+                   
+                    <tr style="background:#6BBDF9;">
+                      <td width="100%" height="10px;"></td>
+
+                    </tr>
+                
+                  </table>
+                  <div style="font-size:12px;">
+                            <span>TIPO CAMBIO:</span> 
+                        </div>
+                        <div style="font-size:12px;">
+                            <t t-set="xml" t-value="o.l10n_mx_edi_get_xml_etree()"/>
+                <t t-set="tfd" t-value="o.l10n_mx_edi_get_tfd_etree(xml)"/>
+                <t t-set="tfd_original_string" t-value="o._get_l10n_mx_edi_cadena()"/>
+                            <span>FECHA TIMBRADO :</span> <span t-esc="tfd.get('FechaTimbrado')"/>
+                        </div>
+                              <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                <div class="row" style="font-size:12px;" id="complement">
+                      
+                    
+                    <div class="complement-details col-9">
+                       
+                        <div >
+                            <span>Digital stamp of the emitter</span>
+                        </div>
+                        <div class="digital-stamp-content">
+                            <span t-esc="xml.get('Sello', 'No identificado')"/>
+                        </div>
+                        <div >
+                            <span>Digital stamp SAT</span>
+                        </div>
+                        <div class="digital-stamp-content">
+                            <span t-esc="tfd.get('SelloSAT', 'No identificado')"/>
+                        </div>
+                        <div >
+                            <span>Original chain complement of digital certification SAT</span>
+                        </div>
+                        <div class="digital-stamp-content">
+                            <span class="nowrap" t-esc="tfd_original_string"/>
+                        </div>
+                        <div t-if="xml.Emisor.xpath('cfdi:ExpedidoEn', namespaces=xml.nsmap)" >
+                            <span>Issued from</span>
+                        </div>
+                        <div t-if="xml.Emisor.xpath('cfdi:ExpedidoEn', namespaces=xml.nsmap)" class="digital-stamp-content">
+                            <span t-esc="xml.get('LugarExpedicion', 'No identificado')"/>
+                        </div>
+                        <div >
+                            <span>Extra Info</span>
+                        </div>
+                        <div class="digital-stamp-content">
+                            <span>Emitter certificate:</span> <span t-esc="xml.get('NoCertificado')"/>
+                            <span> | SAT Certificate:</span> <span t-esc="tfd.get('NoCertificadoSAT')"/>
+                            <span> | Expedition place:</span> <span t-esc="xml.get('LugarExpedicion')"/>
+                            <span> | Fiscal Regime:</span><span t-esc="xml.Emisor.get('RegimenFiscal', '')"/>
+                            <span> | Emission Date:</span> <span t-esc="xml.get('Fecha', '').replace('T', ' ')"/>
+                            <span> | Certification Date:</span> <span t-esc="tfd.get('FechaTimbrado', '').replace('T', ' ')"/>
+                            <span> | Fiscal Folio:</span> <span t-esc="tfd.get('UUID')"/>
+                        </div>
+                        <div class="digital-stamp-content text-center">
+                            <strong>This document is a printed representation of a CFDI</strong>
+                        </div>
+                    </div>
+                    <div class="barcode col-6">
+                        <t t-set="sello" t-value="xml.get('Sello', 'No identificado')[-8:]"/>
+                        <img alt="Barcode" style="height:250px; width:250px;" t-att-src="'/report/barcode/?type=QR&amp;value=%s' % quote_plus(                             'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?' + keep_query(                                 re=o.l10n_mx_edi_cfdi_supplier_rfc, rr=o.l10n_mx_edi_cfdi_customer_rfc,                                 tt=0, id=o.l10n_mx_edi_cfdi_uuid)                                 + '&amp;fe=%s' % quote_plus(sello, 'utf-8', 'strict', '=/').replace('%2B', '+'))"/>
+                    </div>
+                </div>
+            </t>
+
+                  <table width="100%" style="border:0;">
+                    <tr style="background:#6BBDF9;">
+                      <td width="100%"  height="3px;"></td>
+
+                    </tr>
+                    <tr>
+                      <td width="100%">Este documento es una representación impresa de un CFDI</td>
+
+                    </tr>
+                
+                  </table>
+                 
+                 </div>
+              </t>
+              </t>
+            </t>
+           
+         </xpath>
+    </template>
+     <record id="paperformat_report_receipt" model="report.paperformat"> 
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+    </record>
+
+        <report
+            id="account.action_report_payment_receipt"
+            model="account.payment"
+            string="Payment Receipt"
+            report_type="qweb-pdf"
+            name="account.report_payment_receipt"
+            file="account.report_payment_receipt"
+            menu="True"
+            paperformat="report_one.paperformat_report_receipt"
+        />
+    </data>
+
+</odoo>

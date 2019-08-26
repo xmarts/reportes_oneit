@@ -4,10 +4,18 @@
 <template id="report_purchase_document" inherit_id="purchase.report_purchaseorder_document">
     <xpath expr="//t[@t-call='web.external_layout']" position="replace">
     <t t-call="web.basic_layout">
-        <div class="header" >
-                    <div class = 'col-xs-6 text-left' >    
+      <div class="header">
+        <div class = 'col-xs-6 text-left' >    
                              <img src="/report_one/static/description/Facturas.png" />
                         </div> 
+        </div>
+         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+        
+        <div class="page" style="padding-top:30px;">
+
+              
+
+              <div class = 'col-xs-8' >   
                    <table class="float-right">
                     <tr>
                         <td style="color:#FFFFFF; background:#6BBDF9;">
@@ -21,56 +29,13 @@
                         </td>
                     </tr>
                 </table>
-                        <div class = 'col-xs-6 text-left' style="top:800px;position:absolute;width:100%;opacity:0.25;">
-                    <table style=" border:0px solid white; width:100%; font-size: 12px;" >
-                        <tr>
-                            <td class="text-left" style="position: absolute;
-                              bottom: 62px;
-                              left: 0;
-                            
-                              ">
-                                <br/>
-                                <br/>
-                              <span t-if="o.company_id.phone" >Telefono: <span t-field="o.company_id.phone"/></span><br/>
-                              <t t-foreach="o.company_id" t-as="com">
-                         <span t-esc="com.street"/><br/>
-                         <span t-esc="com.street2"/><br/>
-                         <span t-if="o.company_id.phone" >C.P.: <span t-field="o.company_id.phone"/></span>,
-                         <span t-esc="com.city"/>,
-                           <t t-foreach="com.state_id" t-as="st">
-                            <span t-esc="st.name"/><br/>
-                           </t>
-                          
-                          </t>
-                    
-                   
-                    
-              
-                            </td>
-                            <td style="opacity:0;" class="text-right" >
-
-                             <img t-attf-src="data:image/*;base64,{{o.company_id.upload_image}}" />
-                            </td>
-
-                        </tr>
-
-                    </table>    
-                       </div> 
-
                     </div>
-        
-        
-       
-            <br/>
-         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
-        
-        <div class="page">
-
+     
+                    <div class="col-xs-6">
             <span t-esc="o.company_id.name"></span>
-                <br/>
-            <span>RFC:</span><span t-esc="o.company_id.vat"/>
             <br/>
-          
+            <span>RFC:</span><span t-esc="o.company_id.vat"/>
+                    <br/>
                         <t t-foreach="o.company_id" t-as="com">
                          <span t-esc="com.street"/><br/>
                          <span t-esc="com.street2"/><br/>
@@ -82,7 +47,8 @@
                        </t>
              <span t-if="o.company_id.phone" >Telefono: <span t-field="o.company_id.phone"/></span><br/>
             
-            <br/>
+                  </div>
+
             <span t-esc="o.partner_id.name"></span><br/>
              <t t-foreach="o.partner_id" t-as="p">
                 <span t-esc="p.street"/><br/>
@@ -95,7 +61,6 @@
               <span t-if="o.partner_id.phone" >Telefono: <span t-field="o.partner_id.phone"/></span><br/>
             <div class="oe_structure"/>
 
-            <br/>
 
              <table style="font-size:14px; " class="table table-sm o_main_table">
                 <thead>
@@ -103,7 +68,7 @@
                         <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;" class="text-center"><strong>Cantidad</strong></th>
                         <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;" class="text-center">Numero de parte</th>
                         <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;" class="text-center">Marca /Modelo</th>
-                        <th  class="text-center" style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Description</strong></th>
+                        <th  class="text-center" style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Descripción</strong></th>
                       
                         
                         
@@ -172,35 +137,73 @@
             </div>
             <p t-field="o.notes"/>
              <div class="footer">
-              
-               <table>
-                <tr>
-                  <td></td>
-                  <td style="padding-left:15px;"><span>Atentamente</span><br/></td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td style="padding-left:20px;"><span t-esc="o.user_id.name" /><br/></td>
-                  <td></td>
-                </tr>
-                 <tr>
-                  <td  style="font-size: 12px;
-                              "><strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
-                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong></td>
-                  <td style="padding-left:15px;"><span t-esc="o.user_id.email" /><br/></td>
-                  <td></td>
-                </tr>
-              </table>
-
-
-                    
+             <table style="font-size:12px;" width="100%">
+              <tr>
+                <td style="opacity:0.5;">    <span t-if="o.company_id.phone" >Telefono: <span t-field="o.company_id.phone"/></span><br/></td>
+                <td></td>
+              </tr>
+            <tr>
+                <td style="opacity:0.5;">    <t t-foreach="o.company_id" t-as="com">
+                 <span t-esc="com.street"/><br/></t></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="opacity:0.5;" width="50%">
+            
+                              <t t-foreach="o.company_id" t-as="com">
+                        
+                         <span t-esc="com.street2"/><br/>
+                         <span t-if="o.company_id.phone" >C.P.: <span t-field="o.company_id.phone"/></span>,
+                         <span t-esc="com.city"/>,
+                           <t t-foreach="com.state_id" t-as="st">
+                            <span t-esc="st.name"/><br/>
+                           </t>
+                          
+                          </t>
+                          <strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
+                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong>
+                
+             
+              </td>
+              <td width="50%" valign="bottom">
+                 <span>Atentamente</span><br/>
+                 <span t-esc="o.user_id.name" /><br/>
+                <span t-esc="o.user_id.email" /><br/>
+             </td> 
+               </tr>
+                </table> 
             </div>
             <div class="oe_structure"/>
         </div>
     </t>
 </xpath>
 </template>
+ <record id="paperformat_report" model="report.paperformat"> 
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+    </record>
+             <report 
+            string="Purchase Order" 
+            id="purchase.action_report_purchase_order" 
+            model="purchase.order" 
+            report_type="qweb-pdf"
+            name="purchase.report_purchaseorder" 
+            file="purchase.report_purchaseorder"
+            print_report_name="
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))"
+
+            paperformat="report_one.paperformat_report"
+        />
 
 </data>
 </odoo>

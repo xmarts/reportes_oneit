@@ -30,6 +30,7 @@
         'report/purchase_report_template.xml',
         'report/report_stock.xml',        
         'report/factura.xml',
+        'report/account_receipt.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

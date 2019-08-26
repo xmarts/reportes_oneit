@@ -25,8 +25,8 @@
                 </td>
                 <td width="70%" valign="top"  aling="center" >
                   <div style="position:absolute; top:25px; center:0;">
-                    <span t-esc="o.company_id.name"/><br/>
-                    <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
+                    <strong t-esc="o.company_id.name"/><br/>
+                    <strong> RFC: </strong><span t-field="o.company_id.vat"/><br/>
                     <span>No de serie del Certificado del CSD:</span><br/>
                     <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/>
                     <span>Folio Fiscal:</span> <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/><br/>
