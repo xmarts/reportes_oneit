@@ -2,7 +2,7 @@
 <odoo>
   <data>
 <template id="report_purchase_document" inherit_id="purchase.report_purchaseorder_document">
-    <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+   <xpath expr="//t[@t-call='web.external_layout']" position="replace">
     <t t-call="web.basic_layout">
       <div class="header">
         <div class = 'col-xs-6 text-left' >    
@@ -136,43 +136,46 @@
                  <br/>
             </div>
             <p t-field="o.notes"/>
-             <div class="footer">
-             <table style="font-size:12px;" width="100%">
-              <tr>
-                <td style="opacity:0.5;">    <span t-if="o.company_id.phone" >Telefono: <span t-field="o.company_id.phone"/></span><br/></td>
-                <td></td>
-              </tr>
-            <tr>
-                <td style="opacity:0.5;">    <t t-foreach="o.company_id" t-as="com">
-                 <span t-esc="com.street"/><br/></t></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td style="opacity:0.5;" width="50%">
-            
-                              <t t-foreach="o.company_id" t-as="com">
-                        
-                         <span t-esc="com.street2"/><br/>
-                         <span t-if="o.company_id.phone" >C.P.: <span t-field="o.company_id.phone"/></span>,
-                         <span t-esc="com.city"/>,
-                           <t t-foreach="com.state_id" t-as="st">
-                            <span t-esc="st.name"/><br/>
+          <div class="footer">
+                        <div class="text-left">
+                          <table style="font-size:12px;" width="100%">
+                    
+                        <tr>
+                         <td width="40%" style="opacity:0.5;" t-if="o.company_id.phone">Telefono: <span t-field="o.company_id.phone"/></td>
+                         <td width="60%"></td>
+                     </tr>
+                     <tr>
+                         <td width="40%" style="opacity:0.5;"><t t-foreach="o.company_id" t-as="com">
+                         <span t-esc="com.street"/></t></td>
+                          <td width="60%"><span>Atentamente</span></td>
+                         </tr>
+                     <tr>
+                         <td width="40%" style="opacity:0.5;"><t t-foreach="o.company_id" t-as="co"><span t-if="co.street"> <span t-esc="co.street2"/></span></t></td>
+                          <td width="60%"></td>
+                         </tr>
+                     <tr>
+                         <td width="40%" style="opacity:0.5;">  <span t-if="o.company_id.phone">C.P.: <span t-field="o.company_id.phone"/></span>,
+                         <t t-foreach="o.company_id" t-as="c">
+                         <span t-esc="c.city"/>,
+                           <t t-foreach="c.state_id" t-as="st">
+                            <span t-esc="st.name"/>
+                        </t>
                            </t>
-                          
-                          </t>
-                          <strong t-if="o.company_id.email" ><strong t-field="o.company_id.email"/></strong> | 
-                    <strong t-if="o.company_id.website" ><strong t-field="o.company_id.website"/></strong>
-                
-             
-              </td>
-              <td width="50%" valign="bottom">
-                 <span>Atentamente</span><br/>
-                 <span t-esc="o.user_id.name" /><br/>
-                <span t-esc="o.user_id.email" /><br/>
-             </td> 
-               </tr>
-                </table> 
-            </div>
+                       </td>
+                       <td width="60%">  <span t-esc="o.user_id.name" /></td>
+                       </tr>
+                     <tr>
+                       <td width="40%">
+                    <strong t-if="o.company_id.email"><strong t-field="o.company_id.email"/></strong> | 
+                    <strong t-if="o.company_id.website"><strong t-field="o.company_id.website"/></strong>
+                       </td>
+                       <td width="60%"><span t-esc="o.user_id.email" /></td>
+                       </tr>
+                    
+                        </table>  
+
+                  </div>
+                    </div>
             <div class="oe_structure"/>
         </div>
     </t>
@@ -184,7 +187,7 @@
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
             <field name="margin_top">20</field>
-            <field name="margin_bottom">40</field>
+            <field name="margin_bottom">20</field>
             <field name="margin_left">7</field>
             <field name="margin_right">7</field>
             <field name="header_line" eval="False"/>

@@ -111,7 +111,7 @@
                     </t>
                       <t t-if="o.picking_type_code == 'incoming'">
                     <strong>DOCUMENTO DE RECEPCION DE EQUIPAMIENTO</strong><br/>
-                    <span>El presente documento celebra la recepción de componentes de la orden de compra enviada a</span>&#160;&#160; <strong t-field="o.company_id.name"/>.
+                    <span>El presente documento celebra la recepción de componentes de la orden de compra enviada a</span>&#160;&#160; <strong t-field="o.partner_id.name"/>.
                     </t>
                     <table class="table table-sm mt48" >
                         <thead>
@@ -155,7 +155,12 @@
                         </tbody>
                     </table>
                     <div class="row justify-content-end">
-                        <span>Recepción</span><br/>
+                          <t t-if="o.picking_type_code == 'outgoing'">
+                        <span>Entrega</span><br/>
+                    </t>
+                    <t t-if="o.picking_type_code == 'incoming'">
+                           <span>Recepción</span><br/>
+                       </t>
                         <span>___________________</span><br/>
                         <span t-field="o.empleado"/><br/>
                         <span t-field="o.empleado.job_title"/><br/>

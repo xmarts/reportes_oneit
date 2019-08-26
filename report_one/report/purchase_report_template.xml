@@ -264,13 +264,16 @@
                     
                         <tr>
                          <td style="opacity:0.5;" t-if="doc.company_id.phone">Telefono: <span t-field="doc.company_id.phone"/></td>
+                         <td></td>
                      </tr>
                      <tr>
                          <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="com">
                          <span t-esc="com.street"/></t></td>
+                          <td><span>Atentamente</span></td>
                          </tr>
                      <tr>
                          <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="co"><span t-if="co.street"> <span t-esc="co.street2"/></span></t></td>
+                          <td></td>
                          </tr>
                      <tr>
                          <td style="opacity:0.5;">  <span t-if="doc.company_id.phone">C.P.: <span t-field="doc.company_id.phone"/></span>,
@@ -281,15 +284,18 @@
                         </t>
                            </t>
                        </td>
+                       <td>  <span t-esc="doc.user_id.name" /></td>
                        </tr>
                      <tr>
                        <td>
                     <strong t-if="doc.company_id.email"><strong t-field="doc.company_id.email"/></strong> | 
                     <strong t-if="doc.company_id.website"><strong t-field="doc.company_id.website"/></strong>
                        </td>
+                       <td><span t-esc="doc.user_id.email" /></td>
                        </tr>
                     
                         </table>  
+
                   </div>
                     </div>
             <div class="oe_structure"/>
