@@ -31,6 +31,7 @@
         'report/report_stock.xml',        
         'report/factura.xml',
         'report/account_receipt.xml',
+        'report/solicitud_purchase.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
