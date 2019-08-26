@@ -105,10 +105,15 @@
                     <br/>
                     <br/>
                     <br/>
-
+                      <t t-if="o.picking_type_code == 'outgoing'">
+                     <strong>DOCUMENTO DE ENTREGA DE EQUIPAMIENTO</strong><br/>
+                    <span>El presente documento celebra la entrega por parte de la empresa</span>&#160;&#160; <strong t-field="o.company_id.name"> </strong> a&#160;&#160; <strong t-field="o.partner_id"> </strong>, <span>de componentes del proyecto</span><span> </span><strong t-field="o.nombre_pro"/>.
+                    </t>
+                      <t t-if="o.picking_type_code == 'incoming'">
                     <strong>DOCUMENTO DE RECEPCION DE EQUIPAMIENTO</strong><br/>
                     <span>El presente documento celebra la recepción de componentes de la orden de compra enviada a</span>&#160;&#160; <strong t-field="o.company_id.name"/>.
-                    <table class="table table-sm mt48" t-if="o.state!='done'">
+                    </t>
+                    <table class="table table-sm mt48" >
                         <thead>
                             <tr><th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Partida</strong></th>
                             <th style="color:#FFFFFF; background:#6BBDF9; border:1px solid #000000;"><strong>Cantidad</strong></th>
@@ -157,7 +162,7 @@
                         <span>One IT</span>
 
                     </div>
-                    <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'">
+            <!--         <table class="table table-sm mt48" t-if="o.move_line_ids and o.state=='done'">
                         <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')"/>
                         <thead>
                             <tr>
@@ -191,7 +196,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> -->
                     <p>
                         <t t-if="o.backorder_ids and o.backorder_ids.filtered(lambda x: x.state not in ('done', 'cancel'))">   
                             No se pudieron enviar todos los artículos, los restantes se enviarán tan pronto como estén disponibles.

@@ -125,97 +125,14 @@
             </div> 
                    
           
-                  <div  style="font-family:Times New Roman;" class="row mt32 mb32">
-                    <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
-               <t t-set="comp" t-value="xml.Complemento" />
-               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
-                  <t t-foreach="tfd.Pago" t-as="rec">
-                  
-                <div class="col-3 bm-2">
                 
-                    <strong >Monto</strong>
-                    <br/>
-                      <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
-                </div>
-                 <div  class="col-3 bm-2">
-                    <strong>Moneda</strong>
-                    <br/>
-                     <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
-                </div>
-                  
-                 <div  class="col-3 bm-2">
-                    <strong>Forma de Pago:</strong>
-                      <br/>
-                   <span t-esc="rec.get('FormaDePagoP')" />
-                </div>
-                  
-                   <div  class="col-3 bm-2">
-                    <strong>Fecha de Pago</strong>
-                    <br/>
-                     <span t-esc="rec.get('FechaPago')" />
-                </div>
-                 </t>
-            </div>
             <table width="100%" style="border:0;">
                     <tr style="background:#6BBDF9; font-family:Times New Roman;">
                       <td width="100%" ><strong>DOCUMENTOS PAGADOS</strong></td>
                       
                     </tr>                
                 </table>
-                <table class="table ">
-               <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
-               <t t-set="comp" t-value="xml.Complemento" />
-               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
-               <!-- <span t-field="docs.payments_widget" />-->
-                <thead>
-                    <tr>
-                        <th>Serie</th>
-                        <th>Folio</th>
-                        <th>Moneda</th>
-                        <th>Tipo Cambio</th>
-                        <th>Pagado</th>
-                        <th>Saldo pendiente</th>
-                        <th>UUID</th>
-                    </tr>
-                </thead>
-                <tbody class="sale_tbody">
-                    <t t-foreach="tfd.Pago" t-as="rec">
-                        <tr>
-                            <t t-set="pagval" t-value="0" />
-                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PUE'">
-                                <t t-set="pagval" t-value="'PUE - Pago en una sola exibicion'" />
-                            </t>
-                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PPD'">
-                                <t t-set="pagval" t-value="'PPD - Pago en parcialidades o diferido'" />
-                            </t>
-                            
-                            <td>
-                                <t  t-esc="rec.DoctoRelacionado.get('Serie')" />
-                               
-                            </td>
-                            <td>
-                                <t t-esc="rec.DoctoRelacionado.get('Folio')" />
-                            </td>
-                            <td>
-                                <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
-                            </td>
-                            <td>
-                                
-                            </td>
-                            <td>
-                                 <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
-                            </td>
-                            <td>
-                                <span t-esc="rec.DoctoRelacionado.get('ImpSaldoInsoluto')" />
-                            </td>
-                            
-                            <td>
-                                <span t-esc="rec.DoctoRelacionado.get('IdDocumento')" />
-                            </td>
-                        </tr> 
-                    </t>
-                </tbody>
-             </table>
+
                 <table width="100%" style="border:0;">
                    
                    
@@ -305,6 +222,101 @@
             </t>
            
          </xpath>
+    </template>
+
+     <template id="id_reporte_pagos" inherit_id="account.report_payment_receipt_document">
+         <xpath expr="//table[2]" position="after">
+            <table class="table ">
+               <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
+               <t t-set="comp" t-value="xml.Complemento" />
+               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
+               <!-- <span t-field="docs.payments_widget" />-->
+                <thead>
+                    <tr>
+                        <th>Serie</th>
+                        <th>Folio</th>
+                        <th>Moneda</th>
+                        <th>Tipo Cambio</th>
+                        <th>Pagado</th>
+                        <th>Saldo pendiente</th>
+                        <th>UUID</th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+                    <t t-foreach="tfd.Pago" t-as="rec">
+                        <tr>
+                            <t t-set="pagval" t-value="0" />
+                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PUE'">
+                                <t t-set="pagval" t-value="'PUE - Pago en una sola exibicion'" />
+                            </t>
+                            <t t-if="rec.DoctoRelacionado.get('MetodoDePagoDR') == 'PPD'">
+                                <t t-set="pagval" t-value="'PPD - Pago en parcialidades o diferido'" />
+                            </t>
+                            
+                            <td>
+                                <t  t-esc="rec.DoctoRelacionado.get('Serie')" />
+                               
+                            </td>
+                            <td>
+                                <t t-esc="rec.DoctoRelacionado.get('Folio')" />
+                            </td>
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
+                            </td>
+                            <td>
+                                
+                            </td>
+                            <td>
+                                 <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
+                            </td>
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('ImpSaldoInsoluto')" />
+                            </td>
+                            
+                            <td>
+                                <span t-esc="rec.DoctoRelacionado.get('IdDocumento')" />
+                            </td>
+                        </tr> 
+                    </t>
+                </tbody>
+             </table>
+     </xpath> 
+    </template>
+
+     <template id="id_reporte_monto" inherit_id="account.report_payment_receipt_document">
+         <xpath expr="//table[2]" position="before">
+                <div  style="font-family:Times New Roman;" class="row mt32 mb32">
+                    <t t-set="xml" t-value="docs.l10n_mx_edi_get_xml_etree()" />
+               <t t-set="comp" t-value="xml.Complemento" />
+               <t t-set="tfd" t-value="docs.l10n_mx_edi_get_pago_etree(xml)" />
+                  <t t-foreach="tfd.Pago" t-as="rec">
+                  
+                <div class="col-3 bm-2">
+                
+                    <strong >Monto</strong>
+                    <br/>
+                      <span t-esc="rec.DoctoRelacionado.get('ImpPagado')" />
+                </div>
+                 <div  class="col-3 bm-2">
+                    <strong>Moneda</strong>
+                    <br/>
+                     <span t-esc="rec.DoctoRelacionado.get('MonedaDR')" />
+                </div>
+                  
+                 <div  class="col-3 bm-2">
+                    <strong>Forma de Pago:</strong>
+                      <br/>
+                   <span t-esc="rec.get('FormaDePagoP')" />
+                </div>
+                  
+                   <div  class="col-3 bm-2">
+                    <strong>Fecha de Pago</strong>
+                    <br/>
+                     <span t-esc="rec.get('FechaPago')" />
+                </div>
+                 </t>
+            </div>
+     </xpath> 
     </template>
      <record id="paperformat_report_receipt" model="report.paperformat"> 
             <field name="name">No header</field>

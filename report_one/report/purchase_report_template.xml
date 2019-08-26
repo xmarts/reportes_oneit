@@ -5,43 +5,11 @@
   <xpath expr="//t[@t-call='web.external_layout']" position="replace">
                  
       <t t-call="web.basic_layout">
-        <div class="header">
-                    <div class="col-xs-6 text-left" style="padding-top:10px">    
-                             <img t-attf-src="data:image/*;base64,{{doc.company_id.logo}}" width="30%"/>
+          <div class="header">
+        <div class = 'col-xs-6 text-left' >    
+                             <img src="/report_one/static/description/Facturas.png" />
                         </div> 
-
-                        <div class="col-xs-6 text-left" style="opacity:0.25;top:800px;position:absolute;width:100%;">
-                    <table style=" border:0px solid white; width:100%; font-size: 12px;">
-                        <tr>
-                            <td class="text-left" style="position: absolute;                               bottom: 62px;                               left: 0;                               ">
-                                <br/>
-                                <br/>
-                              <span t-if="doc.company_id.phone">Telefono: <span t-field="doc.company_id.phone"/></span><br/>
-                              <t t-foreach="doc.company_id" t-as="com">
-                         <span t-esc="com.street"/><br/>
-                         <span t-esc="com.street2"/><br/>
-                         <span t-if="doc.company_id.phone">C.P.: <span t-field="doc.company_id.phone"/></span>,
-                         <span t-esc="com.city"/>,
-                           <t t-foreach="com.state_id" t-as="st">
-                            <span t-esc="st.name"/><br/>
-                           </t>
-                          
-                    
-                    </t>
-              
-                            </td>
-                            <td style="opacity:0;" class="text-right">
-
-                             <img t-attf-src="data:image/*;base64,{{doc.company_id.upload_image}}" />
-                    
-                            </td>
-
-                        </tr>
-
-                    </table>    
-                       </div> 
-
-                    </div>
+        </div>
         <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
         <t t-set="address">
             <div t-field="doc.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
@@ -233,6 +201,7 @@
                     </div>
                 </div>
             </div>
+            <br/>
             <div class="text-center" style="font-size 12px">
                  <span t-esc="doc.amount_to_text"/> 
                  <br/>
@@ -245,10 +214,14 @@
                 <p t-if="doc.payment_term_id.note">
                     <span t-field="doc.payment_term_id.note"/>
                 </p>
-                <br/>
-                    <span>De vernos beneficiados con su elección favor de depositar a favor de la razón social “Redes Tecnológicas de Occidente S.A. de C.V.” en la siguiente cuenta bancaria.
-                    - Banco: Banamex - Sucursal: 7006 , Cuenta: 6860963 - Clabe Interbancaria: 002320700668609630 - Divisa: Pesos Mexicanos MXN.
-                    - Banco: Banamex - Sucursal: 380, Cuenta: 9438928 - Clabe Interbancaria: 002320038094389283 - Divisa: Dólares Americanos USD. </span>
+                    <span>De vernos beneficiados con su elección favor de depositar a favor de la razón social </span><br/><span> “Redes Tecnológicas de Occidente S.A. de C.V.” en la siguiente cuenta bancaria.</span><br/><span> 
+                    - Banco: Banamex</span><br/><span>  
+                    - Sucursal: 7006 , Cuenta: 6860963 </span><br/><span> 
+                    - Clabe Interbancaria: 002320700668609630 </span><br/><span> 
+                    - Divisa: Pesos Mexicanos MXN.</span><br/><span> 
+                    - Banco: Banamex - Sucursal: 380, Cuenta: 9438928</span><br/><span>  
+                    - Clabe Interbancaria: 002320038094389283 </span><br/><span> 
+                    - Divisa: Dólares Americanos USD. </span>
                 <p id="fiscal_position_remark" t-if="doc.fiscal_position_id and doc.fiscal_position_id.sudo().note">
                     <strong>Observación de la posición fiscal:</strong>
                     <span t-field="doc.fiscal_position_id.sudo().note"/>
@@ -265,7 +238,7 @@
                     <p t-field="doc.signed_by"/>
                 </div>
             </div>
-            <div class="footer">
+           <!--  <div class="footer">
                  <table>
                 <tr>
                   <td/>
@@ -284,7 +257,41 @@
                   <td/>
                 </tr>
               </table>
-            </div>
+            </div> -->
+                  <div class="footer">
+                        <div class="text-left">
+                          <table style="font-size:12px;" width="100%">
+                    
+                        <tr>
+                         <td style="opacity:0.5;" t-if="doc.company_id.phone">Telefono: <span t-field="doc.company_id.phone"/></td>
+                     </tr>
+                     <tr>
+                         <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="com">
+                         <span t-esc="com.street"/></t></td>
+                         </tr>
+                     <tr>
+                         <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="co"><span t-if="co.street"> <span t-esc="co.street2"/></span></t></td>
+                         </tr>
+                     <tr>
+                         <td style="opacity:0.5;">  <span t-if="doc.company_id.phone">C.P.: <span t-field="doc.company_id.phone"/></span>,
+                         <t t-foreach="doc.company_id" t-as="c">
+                         <span t-esc="c.city"/>,
+                           <t t-foreach="c.state_id" t-as="st">
+                            <span t-esc="st.name"/>
+                        </t>
+                           </t>
+                       </td>
+                       </tr>
+                     <tr>
+                       <td>
+                    <strong t-if="doc.company_id.email"><strong t-field="doc.company_id.email"/></strong> | 
+                    <strong t-if="doc.company_id.website"><strong t-field="doc.company_id.website"/></strong>
+                       </td>
+                       </tr>
+                    
+                        </table>  
+                  </div>
+                    </div>
             <div class="oe_structure"/>
             
         </div>
@@ -293,6 +300,33 @@
 
         </xpath>
         </template>
+
+         <record id="paperformat_report_sale" model="report.paperformat"> 
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+    </record>
+             
+
+
+          <report 
+            id="sale.action_report_saleorder"
+            string="Quotation / Order"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="sale.report_saleorder" 
+            name="sale.report_saleorder"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
+            paperformat="report_one.paperformat_report_sale"
+        />
 
     
 
