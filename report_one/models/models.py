@@ -66,7 +66,7 @@ class stock(models.Model):
 	_inherit='stock.picking'
 
 	nombre_pro=fields.Char(string="Nombre del Proyecto")
-	nombre_salida=fields.Char(string="Quien entrega")
+	empleado_recibe=fields.Many2one('hr.employee',string='Recibe')
 	motivo = fields.Many2one('motivo.salida', string='Razon')
 	empleado=fields.Many2one('hr.employee',string='Quien entrega')
 
