@@ -29,7 +29,7 @@
         'report/sale_report_templete.xml',
         'report/purchase_report_template.xml',
         'report/report_stock.xml',        
-        'report/factura.xml',
+        'report/factura.xml',        
         'report/account_receipt.xml',
         'report/solicitud_purchase.xml',
     ],

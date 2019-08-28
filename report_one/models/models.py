@@ -40,25 +40,27 @@ class amount_to_texts(models.Model):
 class campos_purchase(models.Model):
 	_inherit='sale.order.line'
 
-	marca=fields.Char(string="Marca")
-	modelo=fields.Char(string="Modeo")
+	marca = fields.Many2one(related='product_id.categ_id',string='Marca/Modelo')
 	
 	
 class campos_purchase(models.Model):
 	_inherit='purchase.order.line'
 
-	marca=fields.Char(string="Marca")
-	modelo=fields.Char(string="Modeo")
+	marca = fields.Many2one(related='product_id.categ_id',string='Marca/Modelo')
 
 class stock(models.Model):
 	_inherit='stock.move'
 
-	marca=fields.Char(string="Marca")
-	modelo=fields.Char(string="Modeo")
+	marca = fields.Many2one(related='product_id.categ_id',string='Marca/Modelo')
 
+
+	
 class razon_salida(models.Model):
 	_name = 'motivo.salida'
 	name = fields.Char(string='Nombre')
+
+
+
 
 class stock(models.Model):
 	_inherit='stock.picking'
@@ -68,13 +70,16 @@ class stock(models.Model):
 	motivo = fields.Many2one('motivo.salida', string='Razon')
 	empleado=fields.Many2one('hr.employee',string='Quien entrega')
 
-class img(models.Model):
-	_inherit='res.company'	
+	
+			# self.partner_id = self.picking_id.partner_id.id
+			# self.partner_phone = self.picking_id.partner_id.phone
+			# self.email_from = self.picking_id.partner_id.email
+			# self.sale_id = self.picking_id.sale_id.id
+			# claim_lines = [
+			# 	(0, 0, {'product_id': move.product_id.id,'marca': move.marca.id, 'modelo':move.modelo.id, 'series':move.series,'observaciones':move.observaciones, 'quantity': move.product_uom_qty, 'move_id': move.id}) for
+			# 	move in self.picking_id.move_lines]
+			# self.claim_line_ids = claim_lines
 
-	upload_image = fields.Binary("Marca de agua en reporte",
-									attachment=True,
-									help="This field holds the image used for" +
-									"the badge, limited to 256x256")
 
 class pagos_pagos(models.Model):
     _inherit = 'account.payment'

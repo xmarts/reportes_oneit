@@ -3,11 +3,17 @@
   <data>
 
      <template id="report_account_document" inherit_id="account.report_invoice_document">
-           <xpath expr="//t[@t-call='web.external_layout']" position="replace">
+            <xpath expr="//t[@t-call='web.external_layout']" position="replace">
             <t t-call="web.html_container">
             <t t-call="web.basic_layout">
       <t t-foreach="docs" t-as="o">
         <div class="header">
+               <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                <!--New global variables-->
+                <t t-set="xml" t-value="o.l10n_mx_edi_get_xml_etree()"/>
+                <t t-set="tfd" t-value="o.l10n_mx_edi_get_tfd_etree(xml)"/>
+                <t t-set="tfd_original_string" t-value="o._get_l10n_mx_edi_cadena()"/>
+            </t>
            <table style="font-size:12px;" width="100%">
             <tr>
                 <td width="30%" style="background:#6BBDF9;" aling="center">
@@ -18,17 +24,19 @@
                 </td>
             </tr>
             <tr>
-                <td width="30%" aling="center" >
+                <td width="30%" aling="center">
                   <div style="padding-top:40px; padding-left:40px;">
-                    <img src="/report_one/static/description/Facturas.png" />
+                    <img src="/report_one/static/description/Facturas.png"/>
                     </div>
                 </td>
-                <td width="70%" valign="top"  aling="center" >
+                <td width="70%" valign="top" aling="center">
                   <div style="position:absolute; top:25px; center:0;">
-                    <strong t-esc="o.company_id.name"/><br/>
-                    <strong> RFC: </strong><span t-field="o.company_id.vat"/><br/>
+                    <span t-esc="o.company_id.name"/><br/>
+                    <span> RFC: </span><span t-field="o.company_id.vat"/><br/>
                     <span>No de serie del Certificado del CSD:</span><br/>
-                    <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/><br/>
+                     <t t-if="o.l10n_mx_edi_cfdi_uuid">
+                    <span t-esc="xml.get('noCertificado', xml.get('NoCertificado'))"/>
+                    </t><br/>
                     <span>Folio Fiscal:</span> <span t-if="tfd.get('UUID')" t-esc="tfd.get('UUID')"/><br/>
                     <span>Régimen:</span> <span t-field="o.fiscal_position_id"/><br/>
                     <span>Cfdi Relacionados :</span> <span t-field="o.l10n_mx_edi_origin"/><br/>
@@ -54,7 +62,7 @@
         </table>
 
         </div>
-          <div class="page" style="padding-top:30px;">
+          <div class="page" style="padding-top:60px;">
             <t t-if="not o and doc">
               <t t-set="o" t-value="doc"/>
             </t>
@@ -76,8 +84,8 @@
             <tr><td style="background:#6BBDF9;">DATOS DEL CLIENTE</td><td style="background:#6BBDF9;"/></tr>
             <tr>
                 <td>
-                    <span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.name if o.partner_id.parent_id else o.partner_id.name"/><br/>
-                    <span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-raw="'%s &lt;br&gt;' % o.partner_id.parent_id.vat if o.partner_id.parent_id else o.partner_id.vat"/><br/>
+                    <span t-field="o.partner_id.name"/><br/>
+                    <span style="color: #000000; font-family: Arial;"> <strong style="margin-left:0.2em;">RFC:</strong> </span><span t-field="o.partner_id.vat"/><br/>
                     <span>Uso CFDi:</span><span t-field="o.l10n_mx_edi_usage"/><br/>
                      <span>Metodo de Pago:</span><span t-field="o.payment_term_id"/><br/>
                       <span>Forma de Pago:</span><span t-field="o.l10n_mx_edi_payment_method_id"/>
@@ -103,12 +111,12 @@
                   <tr t-foreach="o.invoice_line_ids" t-as="l" style="font-family:Arial, sans-serif;font-size:8pt; border-bottom: 1px solid gray;">
 
                 <td class="text-center">
-                       <t t-esc="'{0:,.2f}'.format(int(l.quantity))" />
+                       <t t-esc="'{0:,.2f}'.format(int(l.quantity))"/>
                     </td>
                     <td style="text-align:center; ">
                       <span t-field="l.product_id.uom_name"/>
                     </td>
-                    <td class="text-left" >
+                    <td class="text-left">
                     <span t-raw="'%s &lt;br&gt;' % l.name if l.name.find('] ') &lt; 0 else l.name[l.name.find('] ')+2:]"/>
                   </td>
                   <td t-attf-class="text-left {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
@@ -117,9 +125,8 @@
                   <td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                     <span t-field="l.price_unit"/>
                   </td>
-                  <td class="text-right o_price_total" >
-                    <span t-field="l.price_subtotal"
-                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                  <td class="text-right o_price_total">
+                    <span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                     </td>
                   </tr>
                 </tbody>

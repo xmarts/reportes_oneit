@@ -1,23 +1,6 @@
 <odoo>
   <data>
-     <record model='ir.ui.view' id="xmarts_res_company">
-        <field name="name">xmarts_res_company</field>
-        <field name="model">res.company</field>
-        <field name="inherit_id" ref="base.view_company_form" />
-        <field name="arch" type="xml">
-           
-           <xpath expr="//field[@name='street']" position="after"> 
-           
-            <field name="upload_image" widget="image" class="oe_avatar"/>
-            
-          </xpath>  
-        
-
-        
-
-
-        </field>
-      </record>  
+  
     <record model='ir.ui.view' id="xmarts_purchase_order">
         <field name="name">xmarts_purchase_order</field>
         <field name="model">purchase.order</field>
@@ -27,7 +10,7 @@
            <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="after">
            
             <field name="marca"/>
-            <field name="modelo"/>
+            
           </xpath>  
 
         
@@ -57,7 +40,6 @@
            <xpath expr="//notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
            
             <field name="marca"/>
-            <field name="modelo"/>
           </xpath>  
 
         
@@ -90,12 +72,14 @@
              <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']" position="after">
            
             <field name="marca"/>
-            <field name="modelo"/>
+            
           </xpath>  
         
 
 
         </field>
       </record>  
+
+     
   </data>
 </odoo>

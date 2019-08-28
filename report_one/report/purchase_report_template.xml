@@ -114,7 +114,7 @@
                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
                             <t t-if="not line.display_type">
                                 <td style="border-right: 1px solid #6BBDF9;"><span t-field="line.product_id.default_code"/></td>
-                                <td style="border-right: 1px solid #6BBDF9;"><span t-field="line.marca"/>/ <span t-field="line.modelo"/></td>
+                                <td style="border-right: 1px solid #6BBDF9;"><span t-field="line.marca"/></td>
                                 <td style="border-right: 1px solid #6BBDF9;"><span t-field="line.name"/></td>
                                 <td style="border-right: 1px solid #6BBDF9;" class="text-right">
                                     <span t-field="line.product_uom_qty"/>
@@ -258,22 +258,22 @@
                 </tr>
               </table>
             </div> -->
-                  <div class="footer">
+                          <div class="footer">
                         <div class="text-left">
                           <table style="font-size:12px;" width="100%">
                     
                         <tr>
                          <td style="opacity:0.5;" t-if="doc.company_id.phone">Telefono: <span t-field="doc.company_id.phone"/></td>
-                         <td></td>
+                         <td/>
                      </tr>
                      <tr>
                          <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="com">
                          <span t-esc="com.street"/></t></td>
-                          <td><span>Atentamente</span></td>
+                        
                          </tr>
                      <tr>
                          <td style="opacity:0.5;"><t t-foreach="doc.company_id" t-as="co"><span t-if="co.street"> <span t-esc="co.street2"/></span></t></td>
-                          <td></td>
+                          <td/>
                          </tr>
                      <tr>
                          <td style="opacity:0.5;">  <span t-if="doc.company_id.phone">C.P.: <span t-field="doc.company_id.phone"/></span>,
@@ -284,14 +284,14 @@
                         </t>
                            </t>
                        </td>
-                       <td>  <span t-esc="doc.user_id.name" /></td>
+                      
                        </tr>
                      <tr>
                        <td>
                     <strong t-if="doc.company_id.email"><strong t-field="doc.company_id.email"/></strong> | 
                     <strong t-if="doc.company_id.website"><strong t-field="doc.company_id.website"/></strong>
                        </td>
-                       <td><span t-esc="doc.user_id.email" /></td>
+                       
                        </tr>
                     
                         </table>  
