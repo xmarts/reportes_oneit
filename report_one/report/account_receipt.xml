@@ -21,7 +21,7 @@
                 <t t-set="Receptorrfc" t-value="xml.Receptor.get('Rfc')" />
 
                     <tr style="background:#6BBDF9; font-family:Times New Roman;">
-                      <td width="50%" ><h4>RECIBO ELECTRONICAO DE PAGO</h4></td>
+                      <td width="50%" ><h4>RECIBO ELECTRÓNICO DE PAGO</h4></td>
                       <td width="50%" style="padding-left:10px;"><span t-field="o.name"/></td>
                     </tr>
                      <tr >
