@@ -132,7 +132,7 @@
             </div>
             <br/>
             <div class="text-center" style="font-size 12px">
-                 <span t-esc="o.amount_to_text"/> 
+                 <span t-esc="o.amount_to_text"/> <span t-esc="o.currency_id.name"/> 
                  <br/>
             </div>
             <p t-field="o.notes"/>

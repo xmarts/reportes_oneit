@@ -27,7 +27,7 @@ class amount_to_text:
         self._n3 = ("ciento", "dosc", "tresc", "cuatroc", "quin", "seisc",
                     "setec", "ochoc", "novec")
 
-    def amount_to_text_cheque(self, nNumero, intermedio="pesos ", sufijo="M. N."):
+    def amount_to_text_cheque(self, nNumero, intermedio="pesos ", sufijo=""):
         """
         @params nNumero : Amount for convert to text
         @params intermedio : Name Divisa
@@ -171,10 +171,10 @@ def get_amount_to_text(self, amount, currency=""):
     @params currency : Name of currency used in amount
     """
     if currency.upper() in ('MXP', 'MXN', 'PESOS', 'PESOS MEXICANOS'):
-        sufijo = 'M. N.'
+        sufijo = ''
         currency = 'PESOS'
     else:
-        sufijo = 'M. N.'
+        sufijo = ''
     # return amount_to_text(amount, lang, currency)
     amount_text = amount_to_text().amount_to_text_cheque(amount, currency, sufijo)
     amount_text = amount_text and amount_text.upper() or ''
@@ -191,6 +191,6 @@ if __name__ == "__main__":
     raw_input("Presione cualquier tecla para continuar....")
     """
     # print amount_to_text().amount_to_text(5001)
-    letra = amount_to_text().amount_to_text_cheque(1500.25, 'pesos', 'M. N.')
+    letra = amount_to_text().amount_to_text_cheque(1500.25, 'pesos', '')
     letra = amount_to_text().amount_to_text(1500.25)
     print(letra.upper())
